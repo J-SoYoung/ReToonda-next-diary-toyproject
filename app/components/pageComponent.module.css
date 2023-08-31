@@ -1,0 +1,16 @@
+.postAddBtn {
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  background-color: #0e4f3d;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+.postAddBtn:hover {
+  box-shadow: 2px 2px 3px rgb(170, 170, 170);
+}
