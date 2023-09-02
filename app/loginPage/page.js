@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <div className={styles.home}>
     <section className={styles.titleBox}>
-      <Image src={'/image/toonda.png'} width={150} height={150}/>
+      <Image src={'/image/toonda.png'} alt='main-image' width={150} height={150}/>
       <div>
         <p className={styles.mainTitle}>ToonDa</p>
         <p className={styles.subTitle}>툰으로 하루 일상을 표현해요</p>
