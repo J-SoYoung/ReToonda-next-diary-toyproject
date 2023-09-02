@@ -4,7 +4,6 @@ import { useRouter, useParams } from "next/navigation";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import styles from "./pageComponent.module.css";
-import useCloseModal from "../utils/hooks/useCloseModal";
 
 export default function OptionModalButton() {
   const router = useRouter();
