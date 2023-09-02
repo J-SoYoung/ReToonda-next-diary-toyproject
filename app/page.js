@@ -9,11 +9,8 @@ export default function Home() {
     <div className={styles.home}>
       <nav className={styles.nav}>
         <Link href={'/'} className={styles.navLogo}>Toonda</Link>
-        <Link href={'/loginPage'} className={styles.loginBtn}>로그인</Link>
-        {/* <div>
-          <p className={styles.loginBtn}>마이페이지</p>
-          <p className={styles.loginBtn}>로그아웃</p>
-        </div> */}
+        {/* <Link href={'/loginPage'} className={styles.loginBtn}>로그인</Link> */}
+        <Link href='/mypage/thdud'className={styles.loginBtn}>마이페이지</Link>
       </nav>
 
       <section className={styles.carousel}>
