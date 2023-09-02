@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
 import PostAddButton from "./components/PostAddButton";
+import PageUpButton from "./components/PageUpButton";
 
 export default function Home() {
   return (
@@ -16,32 +17,26 @@ export default function Home() {
       </nav>
 
       <section className={styles.carousel}>
-        <Image src={"/image/banner1.png"} width={500} height={200} />
+        <Image src={"/image/banner1.png"} alt='ex' width={500} height={200} />
       </section>
 
       <section className={styles.contentBox}>
-        <div className={styles.contentTitle}>최신 DIARY</div>
+        <div className={styles.contentTitle}>
+            Today's DIARY
+          <PostAddButton/>
+        </div>
         <div className={styles.contentDiary}>
-          <div className={styles.contentItem}>
-            <Image className={styles.itemImg} src={"/image/toondaBasic.png"} width={140} height={160} />
+          <Link href='/detailPage/1' className={styles.contentItem}>
+            <Image className={styles.itemImg} alt='ex' src={"/image/toondaBasic.png"} width={140} height={160} />
             <div className={styles.itemText}>오늘의sssdfsdf sdf 툰오늘의툰오늘의툰오늘의툰오늘의툰</div>
-          </div>
-          <div className={styles.contentItem}>
-            <Image className={styles.itemImg} src={"/image/toondaBasic.png"} width={140} height={160} />
+          </Link>
+          <Link href='/detailPage/1' className={styles.contentItem}>
+            <Image className={styles.itemImg} alt='ex' src={"/image/toondaBasic.png"} width={140} height={160} />
             <div className={styles.itemText}>오늘의툰오늘의툰오늘의툰오늘의툰오늘의툰</div>
-          </div>
-          <div className={styles.contentItem}>
-            <Image className={styles.itemImg} src={"/image/toondaBasic.png"} width={140} height={160} />
-            <div className={styles.itemText}>오늘의툰오늘의툰 툰오늘의 오늘의툰오늘의툰오늘의툰</div>
-          </div>
-          <div className={styles.contentItem}>
-            <Image className={styles.itemImg} src={"/image/toondaBasic.png"} width={140} height={160} />
-            <div className={styles.itemText}>오늘의툰오늘의툰오늘의툰오늘의툰오늘의툰</div>
-          </div>
-          
+          </Link>
         </div>
       </section>
-      <PostAddButton/>
+      <PageUpButton/>
     </div>
   );
 }
