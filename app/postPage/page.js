@@ -10,7 +10,7 @@ export default function PostPage() {
           Toonda
         </Link>
         <Link href={"/"} className={styles.loginBtn}>
-          <Image src="./icons/white_check_squre.svg" width={25} height={25} />
+          <Image src="./icons/white_check_squre.svg" alt='check-icon' width={25} height={25} />
         </Link>
       </nav>
       <section className={styles.postBox}>
@@ -28,7 +28,7 @@ export default function PostPage() {
         <div className={styles.postImageBox}>
           <div className={styles.labelBox}>
             <label htmlFor="file">
-              <Image src='/icons/gray_image_add.svg' width={100} height={100}/>
+              <Image src='/icons/gray_image_add.svg' alt='image-add-icon' width={100} height={100}/>
               <p>오늘의 툰을 올려주세요</p>
             </label>
           </div>

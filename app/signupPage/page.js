@@ -6,7 +6,7 @@ export default function SingupPage() {
   return (
     <div className={styles.home}>
       <section className={styles.titleBox}>
-        <Image className={styles.titleImg} src={"/image/toonda.png"} width={70} height={70} />
+        <Image className={styles.titleImg} alt='main-image' src={"/image/toonda.png"} width={70} height={70} />
         <div>
           <p className={styles.mainTitle}>ToonDa</p>
           <p className={styles.subTitle}>툰다에 오신것을 환영합니다</p>

@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 const noonnu = localFont({
-  src: "./font/Orbit-Regular.ttf",
+  src: "./utils/font/Orbit-Regular.ttf",
   display: "swap",
 });
 
