@@ -7,19 +7,19 @@
   box-shadow: 1px 1px 5px #eee;
   background-color: white;
 }
-.titleBox{
-  margin-bottom: 80px;
+.titleBox {
+  margin: 80px auto;
   text-align: center;
   position: relative;
 }
 .titleBox .mainTitle {
-  font-family: 'Rubik Bubbles';
+  font-family: "Rubik Bubbles";
   font-size: 70px;
 }
-.titleBox .titleImg{
+.titleBox .titleImg {
   position: absolute;
   right: 30px;
-  top: -20px;
+  top: -10px;
 }
 
 .inputBox {
@@ -43,7 +43,7 @@
 .inputBox .inputItem::placeholder {
   color: #aaaaaa;
   font-size: 17px;
-  font-family: 'Orbit';
+  font-family: "Orbit";
 }
 .buttonBox {
   width: 100%;
@@ -58,10 +58,16 @@
   border: none;
   border-radius: 8px;
   font-size: 17px;
-  font-family: 'Orbit';
+  font-family: "Orbit";
   color: #ffffff;
   background-color: #0e4f3d;
   cursor: pointer;
+}
+.buttonBox button:nth-child(2) {
+  background-color: #aaaaaa;
+}
+.buttonBox button:hover {
+  box-shadow: 1px 1px 2px rgb(170, 170, 170);
 }
 .buttonBox a {
   cursor: pointer;
