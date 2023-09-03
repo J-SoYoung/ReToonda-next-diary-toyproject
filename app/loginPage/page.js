@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./loginPage.module.css";
-import GithubLoginButton from "../components/GithubLoginButton";
+import Btn_githubLogin from "../components/Btn_githubLogin";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
@@ -40,7 +40,7 @@ export default async function LoginPage() {
         <div className={styles.buttonBox}>
           <button type="submit">로그인</button>
           {/* 미션_ 깃헙 소셜도 같이 구현 */}
-          {/* <GithubLoginButton /> */}
+          {/* <Btn_githubLogin /> */}
           <Link href={"./signupPage"}>회원가입하러 가기</Link>
         </div>
       </form>

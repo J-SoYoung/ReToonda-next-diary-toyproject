@@ -5,14 +5,6 @@ import styles from "./postPage.module.css";
 export default function PostPage() {
   return (
     <div className={styles.home}>
-      <nav className={styles.nav}>
-        <Link href={"/"} className={styles.navLogo}>
-          Toonda
-        </Link>
-        <Link href={"/"} className={styles.loginBtn}>
-          <Image src="./icons/white_check_squre.svg" alt='check-icon' width={25} height={25} />
-        </Link>
-      </nav>
       <section className={styles.postBox}>
         <div className={styles.postInputBox}>
           <input name="date" type="date" />
