@@ -3,7 +3,7 @@ import styles from "./pageComponent.module.css";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function PostAddButton() {
+export default function Btn_PostAdd() {
   const router = useRouter();
   return (
     <button

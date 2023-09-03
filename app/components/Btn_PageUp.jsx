@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./pageComponent.module.css";
 import Image from "next/image";
 
-export default function PageUpButton() {
+export default function Btn_PageUp() {
   return (
     <button
       className={styles.PageUpButton}
