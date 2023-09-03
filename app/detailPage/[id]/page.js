@@ -6,11 +6,6 @@ import OptionModalButton from "@/app/components/OptionModalButton";
 export default function DetailPage() {
   return (
     <div className={styles.home}>
-      <nav className={styles.nav}>
-        <Link href={"/"} className={styles.navLogo}>
-          Toonda
-        </Link>
-      </nav>
       <div className={styles.detailItem}>
         <div className={styles.detailSubTitle}>
           <p>부제목입니다만후후</p>

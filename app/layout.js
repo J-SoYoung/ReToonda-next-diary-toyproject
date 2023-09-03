@@ -1,3 +1,4 @@
+import NavBar from "./components/NavBar";
 import "./globals.css";
 import localFont from "next/font/local";
 
@@ -8,7 +9,7 @@ export const metadata = {
   description: "일상을 툰으로 Toonda",
 };
 
-const noonnu = localFont({
+export const noonnu = localFont({
   src: "./utils/font/Orbit-Regular.ttf",
   display: "swap",
 });
@@ -36,7 +37,10 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={noonnu.className}>{children}</body>
+      <body className={noonnu.className}>
+        <NavBar/>
+        {children}
+      </body>
     </html>
   );
 }

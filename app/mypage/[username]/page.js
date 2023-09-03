@@ -3,20 +3,12 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 
 import styles from "../mypage.module.css";
-import PostAddButton from "@/app/components/PostAddButton";
+import PostAddButton from "@/app/components/Btn_PostAdd";
+import Btn_logout from "@/app/components/Btn_logout";
 
 export default function MyPage() {
   return (
     <div className={styles.home}>
-      <nav className={styles.nav}>
-        <Link href={"/"} className={styles.navLogo}>
-          Toonda
-        </Link>
-        {/* <Link href={'/loginPage'} className={styles.loginBtn}>로그인</Link> */}
-        <Link href="/mypage/thdud" className={styles.loginBtn}>
-          마이페이지
-        </Link>
-      </nav>
       <div className={styles.userInfoBox}>
         <h2>나의 툰 다이어리</h2>
         <div className={styles.userInfo}>
@@ -38,7 +30,7 @@ export default function MyPage() {
           <div className={styles.textBox}>
             <p>기본 정보입니다. 정소영입니다. </p>
             <button>프로필 수정</button>
-            <Link href="/">설정/로그아웃</Link>
+            <Btn_logout />
           </div>
         </div>
       </div>
