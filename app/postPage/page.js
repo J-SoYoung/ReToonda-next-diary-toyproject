@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "./postPage.module.css";
 import ImageComponent from "./components/ImageComponent";
 
 export default function PostPage() {
+  const router = useRouter();
   // 이미지 미리보기 및 S3_upload
   const [previewImage, setPreviewImage] = useState("");
   const [filename, setFilename] = useState("");
@@ -14,6 +15,7 @@ export default function PostPage() {
     title: "",
     content: "",
     image: "",
+    date: "",
   });
 
   // Image 미리보기
@@ -33,7 +35,7 @@ export default function PostPage() {
   const handleClickPostAdd = async (e) => {
     e.preventDefault();
     // S3업로드를 위한 Presigned URL발행
-    let s3_imageSrc =''
+    let s3_imageSrc = "";
     if (filename) {
       let res = await fetch(`/api/post/s3_ImageUpload?file=${filename}`);
       res = await res.json();
@@ -44,7 +46,7 @@ export default function PostPage() {
       Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
         formData.append(key, value);
       });
-      
+
       let S3_imageUpload = await fetch(res.url, {
         method: "POST",
         body: formData,
@@ -52,14 +54,16 @@ export default function PostPage() {
       s3_imageSrc = `${S3_imageUpload.url}/${filename}`;
       setState({ ...state, image: s3_imageSrc });
     }
-      const freeSrc =
+    const freeSrc =
       "https://s3.ap-northeast-2.amazonaws.com/toonda-image-box/free.jpg";
     // 위에서 imageState가 비동기적으로 실행하기 때문에, 콜백함수로 전달해 업데이트함.
 
     const newData = {
+      date: state.date,
       title: state.title,
       content: state.content,
       image: filename ? s3_imageSrc : freeSrc,
+      user: localStorage.getItem("userid"),
       createDate: new Date().getTime(),
     };
 
@@ -71,9 +75,9 @@ export default function PostPage() {
       .then((res) => res.json())
       .then((result) => {
         try {
-          console.log(result);
-          setState({ title: "", content: "", image: "" });
-          // router.push("/");
+          setState({ title: "", content: "", image: "", date: "" });
+          alert(result);
+          router.push("/");
           // router.refresh();
         } catch (error) {
           console.log(error);
@@ -85,7 +89,14 @@ export default function PostPage() {
     <div className={styles.home}>
       <div className={styles.postBox}>
         <div className={styles.postInputBox}>
-          <input name="date" type="date" />
+          <input
+            name="date"
+            type="date"
+            value={state.date}
+            onChange={(e) => {
+              setState({ ...state, date: e.target.value });
+            }}
+          />
           <input
             name="title"
             value={state.title}
