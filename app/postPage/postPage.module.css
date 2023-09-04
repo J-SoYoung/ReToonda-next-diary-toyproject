@@ -21,11 +21,16 @@
 }
 .postBox .postInputBox input {
   height: 45px;
+  width: 100%;
   font-size: 17px;
   font-family: "Orbit";
   background-color: #f4f4f4;
   border: none;
   outline: none;
+}
+.postBox .postInputBox input:first-child {
+  width: 150px;
+  cursor: pointer;
 }
 .postBox .postTextarea {
   position: relative;
@@ -59,7 +64,7 @@
   font-family: "Orbit";
 }
 .postBox .postImageBox {
-  height: 500px;
+  height: 450px;
   display: flex;
   flex-direction: column;
   justify-content: center;
