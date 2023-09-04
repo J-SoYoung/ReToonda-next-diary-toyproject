@@ -1,11 +1,9 @@
 import { connectDB } from "@/app/utils/database/database";
-// 암호화 라이브러리X
+// 암호화 라이브러리
 import bcrypt from "bcrypt";
 
 export default async function handle(req, res) {
   if (req.method == "POST") {
-    console.log("회원가입 req.body", req.body);
-
     // 미션_ 유효성검사 빈칸, email중복check, 길이제한 조건만들기
     // const hash = await bcrypt.hash(req.body.password, 10);
     // req.body.password = hash;
