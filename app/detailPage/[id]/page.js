@@ -1,9 +1,12 @@
-import Link from "next/link";
 import Image from "next/image";
+import { cookies } from "next/headers";
+
 import styles from "../detailPage.module.css";
 import OptionModalButton from "@/app/components/OptionModalButton";
 
 export default function DetailPage() {
+  const userCookieData = cookies().has("userData");
+
   return (
     <div className={styles.home}>
       <div className={styles.detailItem}>
@@ -19,7 +22,7 @@ export default function DetailPage() {
             <Image src="/icons/green_comment.svg" alt='comment-icon' width={30} height={30} />
             <Image src="/icons/green_star.svg" alt='like-icon' width={30} height={30} />
           </div>
-            <OptionModalButton/>
+            {userCookieData && <OptionModalButton/> }
         </div>
         <div className={styles.detailText}>
           <span>

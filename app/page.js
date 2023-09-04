@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import styles from "./page.module.css";
 
 // Database , next-auth
@@ -7,11 +8,11 @@ import { connectDB } from "./utils/database/database";
 import { parse } from "cookie";
 
 // 컴포넌트
-import PostAddButton from "./components/Btn_PostAdd";
-import PageUpButton from "./components/Btn_PageUp";
-import NavBar from "./components/NavBar";
+import Btn_PostAdd from "./components/Btn_PostAdd";
+import Btn_PageUp from "./components/Btn_PageUp";
 
 export default async function Home() {
+  const userCookieData = cookies().has("userData");
   // const client = await connectDB;
   // const db = client.db("Toonda");
   // const result = await db.collection("post").find().toArray();
@@ -26,7 +27,7 @@ export default async function Home() {
       <section className={styles.contentBox}>
         <div className={styles.contentTitle}>
           Today's DIARY
-          <PostAddButton />
+          { userCookieData && <Btn_PostAdd /> }
         </div>
         <div className={styles.contentDiary}>
           <Link href="/detailPage/1" className={styles.contentItem}>
@@ -55,7 +56,7 @@ export default async function Home() {
           </Link>
         </div>
       </section>
-      <PageUpButton />
+      <Btn_PageUp />
     </div>
   );
 }
