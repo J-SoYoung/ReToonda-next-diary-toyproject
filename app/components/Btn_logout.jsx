@@ -9,6 +9,7 @@ export default function Btn_logout() {
     if (isConfirmed) {
       const cookieName = 'userData';
       document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;   
+      localStorage.clear();
       router.refresh()
       router.push('/')
     }
