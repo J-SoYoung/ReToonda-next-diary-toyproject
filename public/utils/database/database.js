@@ -1,8 +1,9 @@
 // Next.js에서 mongoDB연결
 import { MongoClient } from "mongodb";
 
+// mongoDB connect => vscode용 연결
 const url =
-  "mongodb+srv://thdud2262:OT5uGxvUb5ZuUBvj@database.fslqrua.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://thdud2262:j01022624479@database.fslqrua.mongodb.net/";
 const options = { useNewUrlParser: true };
 let connectDB;
 

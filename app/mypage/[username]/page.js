@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
 
-import styles from "../mypage.module.css";
+import styles from "../myPage.module.css";
 import PostAddButton from "@/app/components/Btn_PostAdd";
 import Btn_logout from "@/app/components/Btn_logout";
 

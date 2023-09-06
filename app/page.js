@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import styles from "./page.module.css";
 
 // Database , next-auth
-import { connectDB } from "./utils/database/database";
+import { connectDB } from "../public/utils/database/database";
 import { parse } from "cookie";
 
 // 컴포넌트

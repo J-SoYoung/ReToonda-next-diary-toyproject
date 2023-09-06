@@ -14,7 +14,7 @@ export default function NavBar() {
           Toonda
         </Link>
         <Link
-          href={`/mypage/${cookiesParse.userid}`}
+          href={`/myPage/${cookiesParse.userid}`}
           className={styles.loginBtn}
         >
           마이페이지
