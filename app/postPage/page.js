@@ -78,6 +78,7 @@ export default function PostPage() {
           setState({ title: "", content: "", image: "", date: "" });
           alert(result);
           router.push("/");
+          router.refresh();
         } catch (error) {
           console.log(error);
         }
@@ -152,6 +153,7 @@ export default function PostPage() {
           />
           {previewImage && (
             <Image
+              className={styles.previewImg}
               src={previewImage}
               width={490}
               height={400}
