@@ -9,13 +9,12 @@ export default function DiaryItem({list}) {
       <img
         className={styles.itemImg}
         alt="image"
-        src='https://s3.ap-northeast-2.amazonaws.com/toonda-image-box/free.jpg'
-        // src={list.image}
+        src={list.image}
         width={140}
         height={160}
       />
       <div className={styles.itemText}>
-        {list.content}
+        {list.title}
       </div>
     </Link>
   )

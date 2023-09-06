@@ -9,7 +9,8 @@ export default function PostPage() {
   const router = useRouter();
   // 이미지 미리보기 및 S3_upload
   const [previewImage, setPreviewImage] = useState("");
-  const [filename, setFilename] = useState("");
+  const [file, setFile] = useState("");
+  const [encodeFilename, setEncodeFilename] = useState("");
 
   const [state, setState] = useState({
     title: "",
@@ -21,8 +22,8 @@ export default function PostPage() {
   // Image 미리보기
   const handleImagePreview = async (e) => {
     const file = e.target.files?.[0];
-    setFilename(encodeURIComponent(file.name));
-    // const filename = encodeURIComponent(file.name);
+    setFile(file)
+    setEncodeFilename(encodeURIComponent(file.name));
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -36,8 +37,8 @@ export default function PostPage() {
     e.preventDefault();
     // S3업로드를 위한 Presigned URL발행
     let s3_imageSrc = "";
-    if (filename) {
-      let res = await fetch(`/api/post/s3_ImageUpload?file=${filename}`);
+    if (encodeFilename) {
+      let res = await fetch(`/api/post/s3_ImageUpload?file=${encodeFilename}`);
       res = await res.json();
 
       // S3 업로드
@@ -51,18 +52,17 @@ export default function PostPage() {
         method: "POST",
         body: formData,
       });
-      s3_imageSrc = `${S3_imageUpload.url}/${filename}`;
+      s3_imageSrc = `${S3_imageUpload.url}/${encodeFilename}`;
       setState({ ...state, image: s3_imageSrc });
     }
     const freeSrc =
       "https://s3.ap-northeast-2.amazonaws.com/toonda-image-box/free.jpg";
-    // 위에서 imageState가 비동기적으로 실행하기 때문에, 콜백함수로 전달해 업데이트함.
 
     const newData = {
       date: state.date,
       title: state.title,
       content: state.content,
-      image: filename ? s3_imageSrc : freeSrc,
+      image: encodeFilename ? s3_imageSrc : freeSrc,
       user: localStorage.getItem("userid"),
       createDate: new Date().getTime(),
     };
@@ -78,7 +78,6 @@ export default function PostPage() {
           setState({ title: "", content: "", image: "", date: "" });
           alert(result);
           router.push("/");
-          // router.refresh();
         } catch (error) {
           console.log(error);
         }
@@ -125,7 +124,8 @@ export default function PostPage() {
                 <button
                   onClick={() => {
                     setPreviewImage("");
-                    setFilename("");
+                    setEncodeFilename("");
+                    setFile('')
                   }}
                 >
                   이미지 삭제
