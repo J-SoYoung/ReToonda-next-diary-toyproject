@@ -14,7 +14,10 @@ import DiaryItem from "./components/DiaryItem";
 
 export default async function Home() {
   const userCookieData = cookies().get("userData");
-  const loginUser = JSON.parse(userCookieData.value);
+  let loginUser = ''
+  if(userCookieData){
+    loginUser = JSON.parse(userCookieData?.value);
+  }
 
   const client = await connectDB;
   const db = client.db("Toonda");
