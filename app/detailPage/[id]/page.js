@@ -1,42 +1,47 @@
 import Image from "next/image";
+import { connectDB } from "../../utils/database/database.js";
+import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
 
 import styles from "../detailPage.module.css";
 import OptionModalButton from "@/app/components/OptionModalButton";
 
-export default function DetailPage() {
+export default async function DetailPage(props) {
   const userCookieData = cookies().has("userData");
+  let db = (await connectDB).db("Toonda");
+  let result = await db
+    .collection("post")
+    .findOne({ _id: new ObjectId(props.params.id) });
 
   return (
     <div className={styles.home}>
       <div className={styles.detailItem}>
         <div className={styles.detailSubTitle}>
-          <p>부제목입니다만후후</p>
-          <p>2023.09.02</p>
+          <p>{result?.title}</p>
+          <p>{result?.date}</p>
         </div>
         <div className={styles.detailImage}>
-          <Image src="/image/ex.jpg" alt='ex' width={490} height={400} />
+          <Image src={result?.image} alt="image" width={490} height={400} />
         </div>
         <div className={styles.middleNavBar}>
           <div className={styles.middleNavBarLike}>
-            <Image src="/icons/green_comment.svg" alt='comment-icon' width={30} height={30} />
-            <Image src="/icons/green_star.svg" alt='like-icon' width={30} height={30} />
+            <Image
+              src="/icons/green_comment.svg"
+              alt="comment-icon"
+              width={30}
+              height={30}
+            />
+            <Image
+              src="/icons/green_star.svg"
+              alt="like-icon"
+              width={30}
+              height={30}
+            />
           </div>
-            {userCookieData && <OptionModalButton/> }
+          {userCookieData && <OptionModalButton />}
         </div>
         <div className={styles.detailText}>
-          <span>
-            나비야 나비야 이리날아 오너라 호랑나비 흰나비 나비야 나비야 이리날아
-            오너라 호랑나비 흰나비 춤을추며 오너라 가나다라 마바사아자차
-            카타파하나비야 나비야 이리날아 오너라 호랑나비 흰나비 나비야 나비야
-            이리날아 오너라 호랑나비 흰나비 춤을추며 오너라 가나다라
-            마바사아자차 카타파하아 비야 나비야 이리날아 오너라 호랑나비 흰나비
-            나비야 나비야 이리날아 나비야 나비야 이리날아 오너라 호랑나비 흰나비
-            나비야 나비야 이리날아 오너라 호랑나비 흰나비 춤을추며 오너라
-            가나다라 마바사아자차 카타파하나비야 나비야 이리날아 오너라 호랑나비
-            흰나비 나비야 나비야 이리날아 오너라 호랑나비 흰나비 춤을추며 오너라
-            가나다라 마바사아자차 카타파
-          </span>
+          <span>{result?.content}</span>
         </div>
       </div>
     </div>

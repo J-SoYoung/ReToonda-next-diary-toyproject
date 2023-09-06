@@ -2,7 +2,6 @@ import { connectDB } from "@/app/utils/database/database";
 
 export default async function handle(req, res) {
   if (req.method == "POST") {
-    console.log("-----post-req.body----", req.body);
 
     try {
       const client = await connectDB;
