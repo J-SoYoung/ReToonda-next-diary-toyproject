@@ -34,21 +34,9 @@ export default async function Home() {
         <div className={styles.contentDiary}>
           {result.map((list)=>{
             return (
-              <DiaryItem list={list}/>
+              <DiaryItem list={list} />
             )
           })}
-          {/* <Link href="/detailPage/1" className={styles.contentItem}>
-            <Image
-              className={styles.itemImg}
-              alt="ex"
-              src={"/image/toondaBasic.png"}
-              width={140}
-              height={160}
-            />
-            <div className={styles.itemText}>
-              오늘의툰오늘의툰오늘의툰오늘의툰오늘의툰
-            </div>
-          </Link> */}
         </div>
       </section>
       <Btn_PageUp />
