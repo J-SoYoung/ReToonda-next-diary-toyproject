@@ -82,3 +82,6 @@
 .postBox .postImageBox input[type="file"] {
   display: none;
 }
+.postBox .postImageBox .previewImg{
+  object-fit: cover;
+}

@@ -3,10 +3,9 @@ import Link from 'next/link'
 import styles from '../page.module.css'
 
 export default function DiaryItem({list}) {
-  console.log(list)
   return (
     <Link href={`/detailPage/${list._id}`} className={styles.contentItem}>
-      <img
+      <Image
         className={styles.itemImg}
         alt="image"
         src={list.image}
