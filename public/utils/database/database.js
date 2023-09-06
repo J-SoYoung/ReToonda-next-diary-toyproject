@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 
 // mongoDB connect => vscode용 연결
 const url =
-  "mongodb+srv://thdud2262:j01022624479@database.fslqrua.mongodb.net/";
+  "mongodb+srv://thdud2262:XciRcjTX2pWdxsid@database.fslqrua.mongodb.net/";
 const options = { useNewUrlParser: true };
 let connectDB;
 
