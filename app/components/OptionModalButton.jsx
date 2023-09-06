@@ -12,6 +12,18 @@ export default function OptionModalButton() {
   const [showModal, setShowModal] = useState(false);
   const modalRef = useRef(null);
 
+  const handleClickDelete = () => {
+    if (confirm("정말로 삭제하시겠습니까?")) {
+      return fetch(`/api/post/delete?id=${id}`)
+        .then((res) => res.json())
+        .then((result) => {
+          alert(result);
+          router.push("/");
+          router.refresh();
+        });
+    }
+  };
+
   return (
     <>
       <button
@@ -46,7 +58,7 @@ export default function OptionModalButton() {
                 >
                   수정하기
                 </button>
-                <button>삭제하기</button>
+                <button onClick={handleClickDelete}>삭제하기</button>
                 <button
                   onClick={(e) => {
                     setShowModal(false);
