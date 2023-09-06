@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { connectDB } from "../../utils/database/database.js";
+import { connectDB } from "../../../public/utils/database/database";
 import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
 

@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/utils/database/database";
+import { connectDB } from "../../../public/utils/database/database";
 import { parse, serialize } from "cookie";
 
 export default async function handle(req, res) {
@@ -26,11 +26,11 @@ export default async function handle(req, res) {
 
     // serialize 쿠키 문자열로 직렬화, 모든 페이지에서 사용, 만료일 설정
     const serializedUserData = serialize("userData", JSON.stringify(userInfo), {
-      path: '/',
+      path: "/",
       maxAge: 604800, // 1주일(초)
     });
     console.log("----쿠키----", serializedUserData);
-    
+
     // 쿠키를 클라이언트에 보내기
     // res.status(200).json("가입성공");
     res.setHeader("Set-Cookie", [serializedUserData]);

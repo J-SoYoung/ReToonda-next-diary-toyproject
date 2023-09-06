@@ -1,4 +1,4 @@
-import { connectDB } from "../../utils/database/database";
+import { connectDB } from "../../../public/utils/database/database";
 import { ObjectId } from "mongodb";
 import styles from "../../postPage/postPage.module.css";
 import Image from "next/image";
