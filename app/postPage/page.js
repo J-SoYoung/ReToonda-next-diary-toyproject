@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./postPage.module.css";
 import ImageComponent from "./components/ImageComponent";
+import { AuthenticationContext } from "../context/AuthContext";
 
 export default function PostPage() {
   const router = useRouter();

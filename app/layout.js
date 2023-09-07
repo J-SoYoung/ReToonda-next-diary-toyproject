@@ -1,4 +1,5 @@
 import NavBar from "./components/NavBar";
+import AuthContext from "./context/AuthContext";
 import "./globals.css";
 import localFont from "next/font/local";
 
@@ -38,8 +39,10 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={noonnu.className}>
-        <NavBar/>
-        {children}
+        <AuthContext >
+          <NavBar/>
+          {children}
+        </AuthContext>
       </body>
     </html>
   );

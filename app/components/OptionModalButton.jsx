@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import styles from "./pageComponent.module.css";
+import modalStyles from './pageModalStyle.module.css'
 
 export default function OptionModalButton() {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function OptionModalButton() {
   return (
     <>
       <button
-        className={styles.optionBtn}
+        className={modalStyles.optionBtn}
         onClick={() => {
           setShowModal(!showModal);
         }}
@@ -41,9 +41,9 @@ export default function OptionModalButton() {
       </button>
       {showModal &&
         createPortal(
-          <div ref={modalRef} className={styles.modalOverlay}>
-            <div className={styles.modalBox}>
-              <div className={styles.modalMessageBox}>
+          <div ref={modalRef} className={modalStyles.modalOverlay}>
+            <div className={modalStyles.modalBox}>
+              <div className={modalStyles.modalMessageBox}>
                 <button
                   onClick={() => {
                     router.push("/postPage");
