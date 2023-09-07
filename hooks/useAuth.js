@@ -4,7 +4,7 @@ import { AuthenticationContext } from "@/app/context/AuthContext";
 export default function useAuth() {
   const { setAuthState } = useContext(AuthenticationContext);
 
-  const signin = async ({ userid, password }) => {
+  const login = async ({ userid, password }) => {
     setAuthState({
       data: null,
       error: null,
@@ -12,7 +12,7 @@ export default function useAuth() {
     });
 
     try {
-      await fetch("/api/auth/signin", {
+      await fetch("/api/auth/login", {
         method: "POST",
         body: JSON.stringify({ userid: userid, password: password }),
         headers: { "Content-Type": "application/json" },
@@ -72,5 +72,5 @@ export default function useAuth() {
     }
   };
 
-  return { signin, signup };
+  return { login, signup };
 }

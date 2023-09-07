@@ -13,7 +13,7 @@ export default function LoginInputBox() {
     AuthenticationContext
   );
 
-  const { signin, signup } = useAuth();
+  const { login, signup } = useAuth();
 
   const [loginInputs, setLoginInputs] = useState({
     userid: "",
@@ -27,7 +27,7 @@ export default function LoginInputBox() {
 
   const handleClickLogin = async () => {
     console.log("로그인");
-    await signin({
+    await login({
       userid: loginInputs.userid,
       password: loginInputs.password,
     });
