@@ -1,9 +1,12 @@
+"use client";
 import { useContext } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { getCookie } from "cookies-next"; // cookies 사용 lib
 
 export default function useAuth() {
   const { setAuthState } = useContext(AuthenticationContext);
-
+  const router = useRouter();
   const login = async ({ userid, password }) => {
     setAuthState({
       data: null,
@@ -17,17 +20,23 @@ export default function useAuth() {
         body: JSON.stringify({ userid: userid, password: password }),
         headers: { "Content-Type": "application/json" },
       })
-        .then((r) => r.json())
+        .then((r) => {
+          console.log(r);
+          if (!r.ok) {
+            throw new Error("로그인 실패");
+          }
+          return r.json();
+        })
         .then((result) => {
-          console.log(result);
           setAuthState({
             data: result,
             error: null,
             loading: false,
           });
+          router.push("/");
         });
     } catch (error) {
-      console.log("로그인 Error", error);
+      console.log(error);
       setAuthState({
         data: null,
         error: error,
@@ -53,7 +62,12 @@ export default function useAuth() {
         }),
         headers: { "Content-Type": "application/json" },
       })
-        .then((r) => r.json())
+        .then((r) => {
+          if (!r.ok) {
+            throw new Error("회원가입 실패");
+          }
+          return r.json();
+        })
         .then((result) => {
           console.log(result);
           setAuthState({
@@ -72,5 +86,49 @@ export default function useAuth() {
     }
   };
 
-  return { login, signup };
+  const fetchUser = async () => {
+    setAuthState({
+      data: null,
+      error: null,
+      loading: true,
+    });
+
+    try {
+      const jwt = getCookie("jwt");
+      if (!jwt) {
+        return setAuthState({
+          data: null,
+          error: null,
+          loading: false,
+        });
+      }
+      await fetch("/api/auth/me", {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+        .then((r) => {
+          if (!r.ok) throw new Error("토큰이 유효하지 않습니다");
+          return r.json();
+        })
+        .then((result) => {
+          console.log("result-user", result);
+          setAuthState({
+            data: result,
+            error: null,
+            loading: false,
+          });
+          // router.push('/')
+        });
+    } catch (error) {
+      console.log(error);
+      setAuthState({
+        data: result,
+        error: error,
+        loading: false,
+      });
+    }
+  };
+
+  return { login, signup, fetchUser };
 }
