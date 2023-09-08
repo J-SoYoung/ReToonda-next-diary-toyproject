@@ -26,7 +26,9 @@ export default function LoginInputBox() {
   };
 
   const handleClickLogin = async () => {
-    console.log("로그인");
+    if (loginInputs.userid == "" || loginInputs.password == "") {
+      alert("빈칸을 채워주세요");
+    }
     await login({
       userid: loginInputs.userid,
       password: loginInputs.password,
@@ -35,6 +37,13 @@ export default function LoginInputBox() {
   };
 
   const handleClickSignup = async () => {
+    if (
+      loginInputs.email == "" ||
+      loginInputs.userid == "" ||
+      loginInputs.password == ""
+    ) {
+      alert("빈칸을 채워주세요");
+    }
     await signup({
       userid: loginInputs.userid,
       password: loginInputs.password,
@@ -70,7 +79,7 @@ export default function LoginInputBox() {
           value={loginInputs.password}
           onChange={handleChangeInput}
           className={styles.inputItem}
-          placeholder="8-20자 이내의 비밀번호를 입력하세요"
+          placeholder="6-20자 이내의 비밀번호를 입력하세요"
         />
         <div className={styles.loadingSpinnerBox}>
           {loading && <CircularProgress color="success" />}
