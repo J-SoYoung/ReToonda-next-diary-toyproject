@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { connectDB } from "@/public/utils/database/database";
 
 // style
-import styles from "../myPage.module.css";
-import diaryItemStyle from '../../page.module.css'
+import styles from "../mypage.module.css";
+import diaryItemStyle from "../../page.module.css";
 
 // components
 import Btn_PostAdd from "@/app/components/Btn_PostAdd";
@@ -16,14 +16,14 @@ import Btn_userIntro from "../components/Btn_userIntro";
 export default async function MyPage() {
   const userCookieData = cookies().get("userData");
   const loginUser = JSON.parse(userCookieData?.value);
-  const {userIntro, userProfileImage, userid} = loginUser;
+  const { userIntro, userProfileImage, userid } = loginUser;
 
   const client = await connectDB;
   const db = client.db("Toonda");
   const result = await db.collection("post").find().toArray();
-  const myDiary = result.filter((r)=>{
-    return r.user == userid
-  })
+  const myDiary = result.filter((r) => {
+    return r.user == userid;
+  });
 
   return (
     <div className={styles.home}>
@@ -31,9 +31,8 @@ export default async function MyPage() {
         <h2>{loginUser.userid}의 툰 다이어리</h2>
         <div className={styles.userInfo}>
           <div className={styles.imageBox}>
-            
             <Image
-              src={ userProfileImage ? userProfileImage : "/image/user.jpg" }
+              src={userProfileImage ? userProfileImage : "/image/user.jpg"}
               alt="basic-user-icon"
               width={100}
               height={100}
@@ -47,8 +46,10 @@ export default async function MyPage() {
             />
           </div>
           <div className={styles.textBox}>
-            <p>{userIntro? userIntro : `기본 소개글입니다. ${userid}입니다.`}</p>
-            <Btn_userIntro loginUser={loginUser}/>
+            <p>
+              {userIntro ? userIntro : `기본 소개글입니다. ${userid}입니다.`}
+            </p>
+            <Btn_userIntro loginUser={loginUser} />
             <Btn_logout />
           </div>
         </div>
@@ -59,10 +60,8 @@ export default async function MyPage() {
           <Btn_PostAdd />
         </div>
         <div className={diaryItemStyle.contentDiary}>
-            {myDiary.map((list)=>{
-            return (
-              <DiaryItem list={list} />
-            )
+          {myDiary.map((list) => {
+            return <DiaryItem list={list} />;
           })}
         </div>
       </div>
