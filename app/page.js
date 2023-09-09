@@ -1,11 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
-import { cookies } from "next/headers";
+
 import styles from "./page.module.css";
 
 // Database , next-auth
 import { connectDB } from "../public/utils/database/database";
-import { parse } from "cookie";
 
 // 컴포넌트
 import Btn_PostAdd from "./components/Btn_PostAdd";
@@ -13,11 +11,6 @@ import Btn_PageUp from "./components/Btn_PageUp";
 import DiaryItem from "./components/DiaryItem";
 
 export default async function Home() {
-  const userCookieData = cookies().get("userData");
-  let loginUser = ''
-  if(userCookieData){
-    loginUser = JSON.parse(userCookieData?.value);
-  }
 
   const client = await connectDB;
   const db = client.db("Toonda");
@@ -32,7 +25,7 @@ export default async function Home() {
       <section className={styles.contentBox}>
         <div className={styles.contentTitle}>
           Today's DIARY
-          {userCookieData && <Btn_PostAdd loginUser={loginUser} />}
+          <Btn_PostAdd />
         </div>
         <div className={styles.contentDiary}>
           {result.map((list)=>{
