@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 
 import { AuthenticationContext } from "@/app/context/AuthContext";
@@ -8,12 +8,16 @@ import styles from "../loginPage.module.css";
 import { CircularProgress } from "@mui/material";
 
 export default function LoginInputBox() {
-  const [loginView, setLoginView] = useState(true);
   const { error, loading, data, setAuthState } = useContext(
     AuthenticationContext
   );
 
-  const { login } = useAuth();
+  const { login, fetchUser } = useAuth();
+
+  // 토큰이 있는 경우 자동 로그인
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const [loginInputs, setLoginInputs] = useState({
     userid: "",
@@ -27,6 +31,7 @@ export default function LoginInputBox() {
   const handleClickLogin = async () => {
     if (loginInputs.userid == "" || loginInputs.password == "") {
       alert("빈칸을 채워주세요");
+      return;
     }
     await login({
       userid: loginInputs.userid,
@@ -38,16 +43,6 @@ export default function LoginInputBox() {
   return (
     <div>
       <div className={styles.inputBox}>
-        {!loginView && (
-          <input
-            name="email"
-            type="email"
-            value={loginInputs.email}
-            onChange={handleChangeInput}
-            className={styles.inputItem}
-            placeholder="이메일을 입력하세요"
-          />
-        )}
         <input
           name="userid"
           type="text"
@@ -67,9 +62,7 @@ export default function LoginInputBox() {
         <div className={styles.loadingSpinnerBox}>
           {loading && <CircularProgress color="success" />}
         </div>
-        <p className={styles.errorMessage}>
-          {data?.errorMessage && data.errorMessage}
-        </p>
+        <p className={styles.errorMessage}>{error && error.message}</p>
       </div>
       <div className={styles.buttonBox}>
         <button onClick={handleClickLogin}>로그인</button>

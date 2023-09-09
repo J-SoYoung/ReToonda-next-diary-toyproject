@@ -2,49 +2,11 @@
 import { useContext } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { getCookie } from "cookies-next"; // cookies 사용 lib
+import { getCookie, removeCookies } from "cookies-next"; // cookies 사용 lib
 
 export default function useAuth() {
   const { setAuthState } = useContext(AuthenticationContext);
   const router = useRouter();
-
-  const login = async ({ userid, password }) => {
-    setAuthState({
-      data: null,
-      error: null,
-      loading: true,
-    });
-
-    try {
-      await fetch("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ userid: userid, password: password }),
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((r) => {
-          console.log("response--", r);
-          if (!r.ok) {
-            throw new Error("로그인 실패");
-          }
-          return r.json();
-        })
-        .then((result) => {
-          setAuthState({
-            data: result,
-            error: null,
-            loading: false,
-          });
-          router.push("/");
-        });
-    } catch (error) {
-      console.log(error);
-      setAuthState({
-        data: null,
-        error: error,
-        loading: false,
-      });
-    }
-  };
 
   const signup = async ({ userid, password, email, passwordCheck }) => {
     console.log("회원가입", userid, password, email, passwordCheck);
@@ -87,6 +49,47 @@ export default function useAuth() {
     }
   };
 
+  const login = async ({ userid, password }) => {
+    setAuthState({
+      data: null,
+      error: null,
+      loading: true,
+    });
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ userid: userid, password: password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) {
+        const errorMessage = await res.json();
+        throw new Error(errorMessage.errorMessage);
+      }
+
+      const result = await res.json();
+      setAuthState({
+        data: result,
+        error: null,
+        loading: false,
+      });
+      localStorage.setItem("userid", result.userid);
+      localStorage.setItem("email", result.email);
+      localStorage.setItem("userProfileImage", result.userProfileImage);
+      localStorage.setItem("userIntro", result.userIntro);
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      setAuthState({
+        data: null,
+        error: error,
+        loading: false,
+      });
+    }
+  };
+
+  // 쿠키에 토큰이 있는 경우 middleware에서 토큰 확인 후 자동 로그인
   const fetchUser = async () => {
     setAuthState({
       data: null,
@@ -113,13 +116,18 @@ export default function useAuth() {
           return r.json();
         })
         .then((result) => {
-          console.log("result-user", result);
           setAuthState({
             data: result,
             error: null,
             loading: false,
           });
-          // router.push('/')
+          localStorage.setItem("userid", result.userid);
+          localStorage.setItem("email", result.email);
+          localStorage.setItem("userProfileImage", result.userProfileImage);
+          localStorage.setItem("userIntro", result.userIntro);
+          alert("메인 페이지로 이동합니다");
+          router.push("/");
+          router.refresh();
         });
     } catch (error) {
       console.log(error);
