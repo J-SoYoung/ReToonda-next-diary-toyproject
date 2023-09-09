@@ -14,11 +14,6 @@ export default function SignupInputBox() {
 
   const { signup, fetchUser } = useAuth();
 
-  // 토큰이 있는 경우 자동 로그인
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   const [loginInputs, setLoginInputs] = useState({
     userid: "",
     password: "",

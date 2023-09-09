@@ -74,8 +74,8 @@ export default async function handle(req, res) {
       // 로그인이 되면,
       // 서버 token생성 -> jwt 키캆으로 cookies에 저장
       // 클라이언트에서는 localstorage에 user정보 저장
-
       return res.status(200).json(userInfo);
+      
     } catch (error) {
       console.error(error);
       return res.status(404).json("로그인 실패");
