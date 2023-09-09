@@ -45,16 +45,20 @@ export default async function handle(req, res) {
         .findOne({ userid: userid });
       if (!userInfo) {
         return res.status(401).json({
-          errorMessage: "회원 정보가 없습니다. 아이디를 확인해주세요.",
+          errorMessage:
+            "회원 정보가 없습니다. 아이디 또는 비밀번호를 확인해주세요.",
         });
       }
+
       // 비밀번호 확인 bcrypt암호화와 비교
       const isPaswwordMatch = await bcrypt.compare(password, userInfo.password);
       if (!isPaswwordMatch) {
         return res.status(401).json({
-          errorMessage: "아이디 or 비밀번호가 유효하지 않습니다.",
+          errorMessage:
+            "회원 정보가 없습니다. 아이디 또는 비밀번호를 확인해주세요.",
         });
       }
+
       // JWT 토큰 구조 생성
       const alg = "HS256";
       const secret = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -66,26 +70,17 @@ export default async function handle(req, res) {
         .sign(secret); // secret key 설정
 
       setCookie("jwt", token, { req, res, maxAge: 60 * 6 * 24 }); // 6일 유지
-      return res.status(200).json({ userInfo });
+
+      // 로그인이 되면,
+      // 서버 token생성 -> jwt 키캆으로 cookies에 저장
+      // 클라이언트에서는 localstorage에 user정보 저장
+
+      return res.status(200).json(userInfo);
     } catch (error) {
       console.error(error);
       return res.status(404).json("로그인 실패");
     }
   }
-
-  // setCookie("userData", token, { req, res, maxAge: 60 * 6 * 24 });
-  // serialize 쿠키 문자열로 직렬화, 모든 페이지에서 사용, 만료일 설정
-  // const serializedUserData = serialize("userData", JSON.stringify(userInfo), {
-  //   path: "/",
-  //   maxAge: 604800, // 1주일(초)
-  // });
-  // console.log("----쿠키----", serializedUserData);
-
-  // 쿠키를 클라이언트에 보내기
-  // res.status(200).json("가입성공");
-  // res.setHeader("Set-Cookie", [serializedUserData]);
-  // res.redirect(302, "/");
-  // return res.status(200).json({ userInfo });
 
   return res.status(404).json("잘못된 경로입니다");
 }
