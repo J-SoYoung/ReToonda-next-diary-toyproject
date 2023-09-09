@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import useAuth from "@/hooks/useAuth";
-import styles from "../../loginPage/loginPage.module.css";
+import styles from "@/app/loginPage/loginPage.module.css";
 import { CircularProgress } from "@mui/material";
 
 export default function SignupInputBox() {
@@ -12,7 +12,12 @@ export default function SignupInputBox() {
     AuthenticationContext
   );
 
-  const { signup } = useAuth();
+  const { signup, fetchUser } = useAuth();
+
+  // 토큰이 있는 경우 자동 로그인
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const [loginInputs, setLoginInputs] = useState({
     userid: "",
