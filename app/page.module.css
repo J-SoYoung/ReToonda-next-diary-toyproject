@@ -45,6 +45,18 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+.contentBox .contentDiary .emptyDiary {
+  width: 100%;
+  padding: 20px auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+.contentBox .contentDiary .emptyDiary p{
+  margin-top: 16px;
+  font-size: 18px;
+}
+
 .contentBox .contentDiary .contentItem {
   display: flex;
   flex-direction: column;
