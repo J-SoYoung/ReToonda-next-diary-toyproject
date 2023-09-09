@@ -1,12 +1,11 @@
 "use client";
 import Link from "next/link";
+import { useContext } from "react";
+import { AuthenticationContext } from "../context/AuthContext";
 import styles from "./pageLayout.module.css";
 
 export default function NavBar() {
-  let user;
-  if (typeof window !== "undefined") {
-    user = localStorage.getItem("userid");
-  }
+  const { data } = useContext(AuthenticationContext);
 
   return (
     <>
@@ -14,8 +13,8 @@ export default function NavBar() {
         <Link href={"/"} className={styles.navLogo}>
           Toonda
         </Link>
-        {user ? (
-          <Link href={`/myPage/${user}`} className={styles.loginBtn}>
+        {data ? (
+          <Link href={`/myPage/${data.userid}`} className={styles.loginBtn}>
             마이페이지
           </Link>
         ) : (
