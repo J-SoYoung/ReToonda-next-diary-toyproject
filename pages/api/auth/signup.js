@@ -4,16 +4,19 @@ import bcrypt from "bcrypt"; // 암호화 lib
 
 export default async function handle(req, res) {
   // console.log("--회원가입--", req.body);
-  const { userid, password, email } = req.body;
+  const { userid, password, passwordCheck, email } = req.body;
   const errors = [];
   const db = (await connectDB).db("Toonda");
 
   if (req.method == "POST") {
+    if (password !== passwordCheck) {
+      return res.status(404).json({ errorMessage: "비밀번호를 확인해주세요" });
+    }
     try {
       const validationSchema = [
         {
           valid: validator.isEmail(email),
-          errorMessage: "이메일을 확인해주세요.",
+          errorMessage: "이메일 형식을 확인해주세요.",
         },
         {
           valid: validator.isLength(userid, {
@@ -76,9 +79,7 @@ export default async function handle(req, res) {
       return res.status(200).json("회원가입 성공");
     } catch (error) {
       console.error("Error:", error);
-      return res
-        .status(404)
-        .json("회원가입 실패, 다시 시도해주세요");
+      return res.status(404).json("회원가입 실패, 다시 시도해주세요");
     }
   }
   return res.status(404).json("잘못된 경로입니다");
