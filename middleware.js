@@ -2,13 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import * as jose from "jose";
 
 export default async function middleware(req, res) {
-  console.log("middleware 토큰 검증");
   // 토큰 확인
   const bearerToken = req.headers.get("authorization");
   if (!bearerToken) {
-    // res.status(401).json({
-    //   errorMessage: "token을 확인할 수 없습니다",
-    // });
     return new NextResponse(
       JSON.stringify({ errorMessage: "token을 확인할 수 없습니다" }),
       { status: 401 }
@@ -16,9 +12,6 @@ export default async function middleware(req, res) {
   }
   const token = bearerToken.split(" ")[1];
   if (!token) {
-    // res.status(401).json({
-    //   errorMessage: "token형식이 유효하지 않습니다",
-    // });
     return new NextResponse(
       JSON.stringify({ errorMessage: "token형식이 유효하지 않습니다" }),
       { status: 401 }
@@ -30,9 +23,6 @@ export default async function middleware(req, res) {
   try {
     await jose.jwtVerify(token, secret);
   } catch (error) {
-    // res.status(401).json({
-    //   errorMessage: "사용자 정보를 가져올 수 없습니다",
-    // });
     return new NextResponse(
       JSON.stringify({ errorMessage: "사용자 정보를 가져올 수 없습니다" }),
       { status: 401 }
