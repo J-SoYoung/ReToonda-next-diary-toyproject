@@ -7,6 +7,7 @@ import { getCookie } from "cookies-next"; // cookies 사용 lib
 export default function useAuth() {
   const { setAuthState } = useContext(AuthenticationContext);
   const router = useRouter();
+
   const login = async ({ userid, password }) => {
     setAuthState({
       data: null,
@@ -21,7 +22,7 @@ export default function useAuth() {
         headers: { "Content-Type": "application/json" },
       })
         .then((r) => {
-          console.log(r);
+          console.log("response--", r);
           if (!r.ok) {
             throw new Error("로그인 실패");
           }
@@ -45,39 +46,39 @@ export default function useAuth() {
     }
   };
 
-  const signup = async ({ userid, password, email }) => {
-    console.log("회원가입", userid, password, email);
+  const signup = async ({ userid, password, email, passwordCheck }) => {
+    console.log("회원가입", userid, password, email, passwordCheck);
     setAuthState({
       data: null,
       error: null,
       loading: true,
     });
+
     try {
-      await fetch("/api/auth/signup", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify({
           userid: userid,
           password: password,
+          passwordCheck: passwordCheck,
           email: email,
         }),
         headers: { "Content-Type": "application/json" },
-      })
-        .then((r) => {
-          if (!r.ok) {
-            throw new Error("회원가입 실패");
-          }
-          return r.json();
-        })
-        .then((result) => {
-          console.log(result);
-          setAuthState({
-            data: result,
-            error: null,
-            loading: false,
-          });
-        });
+      });
+
+      if (!res.ok) {
+        const errorMessage = await res.json();
+        throw new Error(errorMessage.errorMessage);
+      }
+
+      const result = await res.json();
+      setAuthState({
+        data: result,
+        error: null,
+        loading: false,
+      });
+      router.push("/loginPage");
     } catch (error) {
-      console.log("회원가입 Error", error);
       setAuthState({
         data: null,
         error: error,
