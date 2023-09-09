@@ -4,12 +4,9 @@ import { connectDB } from "../public/utils/database/database";
 
 // 컴포넌트
 import Btn_PageUp from "./components/Btn_PageUp";
-import DiaryItem from "./components/DiaryItem";
-import DiaryTitleBar from "./components/DiaryTItleBar";
 import DiaryContentSection from "./components/DiaryContentSection";
 
 export default async function Home() {
-
   const client = await connectDB;
   const db = client.db("Toonda");
   const result = await db.collection("post").find().toArray();
