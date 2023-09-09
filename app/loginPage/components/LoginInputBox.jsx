@@ -11,13 +11,7 @@ export default function LoginInputBox() {
   const { error, loading, data, setAuthState } = useContext(
     AuthenticationContext
   );
-
   const { login, fetchUser } = useAuth();
-
-  // 토큰이 있는 경우 자동 로그인
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const [loginInputs, setLoginInputs] = useState({
     userid: "",
