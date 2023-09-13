@@ -1,5 +1,4 @@
 import { connectDB } from "@/public/utils/database/database";
-
 // components
 import styles from "../mypage.module.css";
 import UserInfoBox from "../components/UserInfoBox";
@@ -11,7 +10,7 @@ export default async function MyPage(props) {
   const myDiary = result.filter((r) => {
     return r.user == props.params.username;
   });
-  console.log(myDiary);
+
   return (
     <div className={styles.home}>
       <UserInfoBox />
