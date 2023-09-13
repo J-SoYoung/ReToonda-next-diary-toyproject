@@ -8,9 +8,16 @@ const nextConfig = {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     return config;
   },
+  // S3 호스트를 여기에 추가
   images: {
-    domains: ["s3.ap-northeast-2.amazonaws.com"],
-    // S3 호스트를 여기에 추가
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "s3.ap-northeast-2.amazonaws.com",
+        port: "",
+        pathname: "/toonda-image/**",
+      },
+    ],
   },
 };
 module.exports = nextConfig;

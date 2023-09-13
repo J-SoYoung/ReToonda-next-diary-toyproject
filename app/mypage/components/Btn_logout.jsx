@@ -13,8 +13,8 @@ export default function Btn_logout() {
       const cookieName = "jwt";
       document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
-      // 로컬스토리지의 쓰임이 없다.
-      localStorage.clear();
+      // 로컬스토리지 사용하지 않음.?..
+      // localStorage.clear();
 
       setAuthState({
         data: null,

@@ -26,7 +26,6 @@
   z-index: 2;
   background: rgba(0, 0, 0, 0.25);
 }
-
 .modalBox {
   width: 400px;
   height: fit-content;
@@ -66,14 +65,15 @@
 }
 
 /* myPage UserIntro-EditModal */
-.modalBox .modalEditBox {
+.modalEditBox {
   width: 100%;
+  position: relative;
 }
-.modalBox .modalEditBox h3 {
+.modalEditBox h3 {
   margin-bottom: 20px;
   text-align: center;
 }
-.modalBox .modalEditBox input {
+.modalEditBox input {
   width: 100%;
   height: 45px;
   margin-bottom: 16px;
@@ -85,12 +85,44 @@
   font-family: "Orbit";
   outline: none;
 }
-.modalBox .modalEditBox div {
+.modalEditBox div {
   display: flex;
   justify-content: center;
 }
+.modalEditBox .userImageBox {
+  width: 100%;
+  height: 100px;
+  margin: 10px auto;
+  position: relative;
+}
+.modalEditBox .userImageBox .userImgEditIcon {
+  position: absolute;
+  top: 70px;
+  left: 60%;
+  padding: 4px;
+  box-sizing: border-box;
+  background-color: #0e4f3d;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.modalEditBox .userImageBox img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid lightgray;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-.modalBox .modalEditBox div button {
+.modalEditBox .userImageBox input[type="file"] {
+  display: none;
+}
+/* .userInfo .imageBox .previewImage img {
+  width: 100%;
+  height: 100%;
+} */
+
+.modalEditBox .buttonBox button {
   width: 150px;
   height: 40px;
   margin: 0 8px;
@@ -102,14 +134,13 @@
   font-family: "Orbit";
   cursor: pointer;
 }
-
-.modalBox .modalEditBox div button:first-child {
+.modalEditBox div button:first-child {
   background-color: #0e4f3d;
 }
 
-.modalBox .modalEditBox div button:first-child:hover {
+.modalEditBox div button:first-child:hover {
   background-color: #115f49;
 }
-.modalBox .modalEditBox div button:last-child:hover {
+.modalEditBox div button:last-child:hover {
   background-color: #aaa;
 }
