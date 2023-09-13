@@ -4,8 +4,6 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import useUserDataEdit from "@/hooks/useUserDataEdit";
 import modalStyle from "@/app/components/pageModalStyle.module.css";
-import styles from "../mypage.module.css";
-import Btn_userImage from "./Btn_userImage";
 
 export default function Btn_userInfoModal({ user }) {
   const { userDataEditFunc } = useUserDataEdit();
