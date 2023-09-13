@@ -1,16 +1,18 @@
 "use client";
-import { useContext, useState } from "react";
-import Image from "next/image";
+import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { AuthenticationContext } from "@/app/context/AuthContext";
 import styles from "./postPage.module.css";
 import ImageComponent from "./components/ImageComponent";
-import { AuthenticationContext } from "../context/AuthContext";
 
 export default function PostPage() {
+  const { data } = useContext(AuthenticationContext);
   const router = useRouter();
+
   // 이미지 미리보기 및 S3_upload
   const [previewImage, setPreviewImage] = useState("");
-  const [file, setFile] = useState("");
+  const [uploadFile, setUploadFile] = useState("");
   const [encodeFilename, setEncodeFilename] = useState("");
 
   const [state, setState] = useState({
@@ -22,8 +24,12 @@ export default function PostPage() {
 
   // Image 미리보기
   const handleImagePreview = async (e) => {
+    if (state.date == "" || state.title == "" || state.content == "") {
+      alert("빈칸을 채워주세요");
+      return;
+    }
     const file = e.target.files?.[0];
-    setFile(file)
+    setUploadFile(file);
     setEncodeFilename(encodeURIComponent(file.name));
     if (file) {
       const reader = new FileReader();
@@ -45,7 +51,7 @@ export default function PostPage() {
       // S3 업로드
       // entries를 통해 주어진 객체를 [key, value]를 배열로 반환
       const formData = new FormData();
-      Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
+      Object.entries({ ...res.fields, uploadFile }).forEach(([key, value]) => {
         formData.append(key, value);
       });
 
@@ -53,6 +59,7 @@ export default function PostPage() {
         method: "POST",
         body: formData,
       });
+      
       s3_imageSrc = `${S3_imageUpload.url}/${encodeFilename}`;
       setState({ ...state, image: s3_imageSrc });
     }
@@ -64,7 +71,8 @@ export default function PostPage() {
       title: state.title,
       content: state.content,
       image: encodeFilename ? s3_imageSrc : freeSrc,
-      user: localStorage.getItem("userid"),
+      // user: localStorage.getItem("userid"),
+      user: data?.userid,
       createDate: new Date().getTime(),
     };
 
@@ -127,7 +135,7 @@ export default function PostPage() {
                   onClick={() => {
                     setPreviewImage("");
                     setEncodeFilename("");
-                    setFile('')
+                    setFile("");
                   }}
                 >
                   이미지 삭제

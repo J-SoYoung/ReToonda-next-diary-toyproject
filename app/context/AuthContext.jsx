@@ -46,6 +46,7 @@ export default function AuthContext({ children }) {
       })
         .then((r) => {
           if (!r.ok) throw new Error("토큰이 유효하지 않습니다");
+          localStorage.clear();
           return r.json();
         })
         .then((result) => {
@@ -54,10 +55,10 @@ export default function AuthContext({ children }) {
             error: null,
             loading: false,
           });
-          localStorage.setItem("userid", result.userid);
-          localStorage.setItem("email", result.email);
-          localStorage.setItem("userProfileImage", result.userProfileImage);
-          localStorage.setItem("userIntro", result.userIntro);
+          // localStorage.setItem("userid", result.userid);
+          // localStorage.setItem("email", result.email);
+          // localStorage.setItem("userProfileImage", result.userProfileImage);
+          // localStorage.setItem("userIntro", result.userIntro);
           if (path == "/loginpage") {
             alert("메인 페이지로 이동합니다");
             router.push("/");

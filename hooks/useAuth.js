@@ -62,20 +62,20 @@ export default function useAuth() {
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) {
+        console.log(res);
         const errorMessage = await res.json();
         throw new Error(errorMessage.errorMessage);
       }
-
       const result = await res.json();
       setAuthState({
         data: result,
         error: null,
         loading: false,
       });
-      localStorage.setItem("userid", result.userid);
-      localStorage.setItem("email", result.email);
-      localStorage.setItem("userProfileImage", result.userProfileImage);
-      localStorage.setItem("userIntro", result.userIntro);
+      // localStorage.setItem("userid", result.userid);
+      // localStorage.setItem("email", result.email);
+      // localStorage.setItem("userProfileImage", result.userProfileImage);
+      // localStorage.setItem("userIntro", result.userIntro);
       router.push("/");
       router.refresh();
     } catch (error) {
@@ -87,7 +87,6 @@ export default function useAuth() {
       });
     }
   };
-
 
   return { login, signup };
 }
