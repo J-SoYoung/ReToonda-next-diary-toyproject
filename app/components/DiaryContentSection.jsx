@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../page.module.css";
+import styles from "./pageComponent.module.css";
 import Btn_PostAdd from "./Btn_PostAdd";
 import DiaryItem from "./DiaryItem";
 import Image from "next/image";
