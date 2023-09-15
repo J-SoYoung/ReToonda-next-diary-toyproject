@@ -6,12 +6,11 @@ import { AuthenticationContext } from "@/app/context/AuthContext";
 import useAuth from "@/hooks/useAuth";
 import styles from "../loginPage.module.css";
 import { CircularProgress } from "@mui/material";
+import { hasCookie } from "cookies-next";
 
 export default function LoginInputBox() {
-  const { error, loading, data, setAuthState } = useContext(
-    AuthenticationContext
-  );
-  const { login, fetchUser } = useAuth();
+  const { error, loading } = useContext(AuthenticationContext);
+  const { login } = useAuth();
 
   const [loginInputs, setLoginInputs] = useState({
     userid: "",
