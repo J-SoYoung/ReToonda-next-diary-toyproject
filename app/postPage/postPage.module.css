@@ -8,6 +8,9 @@
 }
 
 .postBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .postBox .postInputBox {
   width: 100%;
@@ -74,14 +77,33 @@
 .postBox .postImageBox .labelBox {
   text-align: center;
   color: gray;
+  font-size: 18px;
 }
 .postBox .postImageBox .labelBox label {
+  cursor: pointer;
+}
+.postBox .postImageBox .labelBox .imageEditLabelBox {
+  display: flex;
+}
+.postBox .postImageBox .labelBox .imageEditLabelBox .imageEditLabel, .postBox .postButton  {
+  width: 150px;
+  margin: 8px;
+  padding: 4px 8px;
+  box-sizing: border-box;
   font-size: 18px;
+  font-family: "Orbit";
+  color: gray;
+  border: 1px solid lightgray;
+  border-radius: 8px;
   cursor: pointer;
 }
 .postBox .postImageBox input[type="file"] {
   display: none;
 }
-.postBox .postImageBox .previewImg{
+.postBox .postImageBox .previewImg {
   object-fit: cover;
+}
+.postBox .postButton {
+  display: inline-block;
+  margin: 20px auto; 
 }

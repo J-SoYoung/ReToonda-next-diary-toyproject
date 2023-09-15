@@ -1,16 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { PostDataContext } from "@/app/context/PostContext";
 import styles from "../postPage.module.css";
 import Image from "next/image";
 
 export default function ImageComponent() {
+  const { setPostState } = useContext(PostDataContext);
   const [previewImage, setPreviewImage] = useState("");
-  const [s3_imageSrc, setS3_imageSrc] = useState("");
 
-  const handleImageAdd = async (e) => {
+  const [src, setSrc] = useState("");
+
+  const handleImagePreview = async (e) => {
     const file = e.target.files?.[0];
-    const filename = encodeURIComponent(file.name);
+    setPostState({
+      postError: null,
+      imageFile: file,
+    });
 
+    // 이미지 미리보기
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -18,35 +25,24 @@ export default function ImageComponent() {
         setPreviewImage(reader.result);
       };
     }
-
-    // // S3는 글 발행시 업로드하기
-    // // PresignedURL 요청
-    let res = await fetch(`/api/post/s3_ImageUpload?file=${filename}`);
-    res = await res.json();
-
-    // S3 업로드
-    // entries를 통해 주어진 객체를 [key, value]를 배열로 반환
-    const formData = new FormData();
-    Object.entries({ ...res.fields, file }).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-    let S3_imageUpload = await fetch(res.url, {
-      method: "POST",
-      body: formData,
-    });
-    setS3_imageSrc(`${S3_imageUpload.url}/${file.name}`);
   };
 
   return (
-    <>
-      <div className={styles.postImageBox}>
-        <div className={styles.labelBox}>
-          {previewImage ? (
-            <label htmlFor="file">
-              <p>이미지 변경</p>
-            </label>
-          ) : (
-            <label htmlFor="file">
+    <div className={styles.postImageBox}>
+      {/* input=file style변경 */}
+      <div className={styles.labelBox}>
+        {/* 실제 image업로드 input */}
+        <input
+          type="file"
+          name="image"
+          id="file"
+          accept="image/*"
+          onChange={handleImagePreview}
+        />
+        {!previewImage ? (
+          <>
+            {/* input=file 기본style 대신 */}
+            <label htmlFor="file" className={styles.imageBasicLabel}>
               <Image
                 src="/icons/gray_image_add.svg"
                 alt="image-add-icon"
@@ -55,20 +51,35 @@ export default function ImageComponent() {
               />
               <p>오늘의 툰을 올려주세요</p>
             </label>
-          )}
-        </div>
-        <input
-          type="file"
-          name="image"
-          id="file"
-          accept="image/*"
-          onChange={handleImageAdd}
-        />
-        {/* 글 발행 전이니까 본인 로컬에서만 보이면 됨. */}
-        {previewImage && (
-          <Image src={previewImage} width={490} height={400} alt="preview-image" />
+          </>
+        ) : (
+          <div className={styles.imageEditLabelBox}>
+            {/* preview이미지 있을 때 img수정 input */}
+            <label htmlFor="file" className={styles.imageEditLabel}>
+              <p>이미지 변경</p>
+            </label>
+            <button
+              className={styles.imageEditLabel}
+              onClick={() => {
+                setPreviewImage("");
+                setEncodeFilename("");
+              }}
+            >
+              이미지 삭제
+            </button>
+          </div>
         )}
       </div>
-    </>
+      {/* Preview이미지 보여지는 부분 */}
+      {previewImage && (
+        <Image
+          className={styles.previewImg}
+          src={previewImage}
+          width={490}
+          height={400}
+          alt="preview-image"
+        />
+      )}
+    </div>
   );
 }
