@@ -66,7 +66,7 @@ export default async function handle(req, res) {
       // 토큰 생성 email을 고유 식별자로 함
       const token = await new jose.SignJWT({ email: userInfo.email })
         .setProtectedHeader({ alg }) // 알고리즘 선택
-        .setExpirationTime("24h") // 토큰 만료기한 설정
+        .setExpirationTime("48h") // 토큰 만료기한 설정
         .sign(secret); // secret key 설정
 
       setCookie("jwt", token, { req, res, maxAge: 60 * 6 * 24 }); // 6일 유지
@@ -75,7 +75,6 @@ export default async function handle(req, res) {
       // 서버 token생성 -> jwt 키캆으로 cookies에 저장
       // 클라이언트에서는 localstorage에 user정보 저장
       return res.status(200).json(userInfo);
-      
     } catch (error) {
       console.error(error);
       return res.status(404).json("로그인 실패");
