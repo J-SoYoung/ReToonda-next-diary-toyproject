@@ -1,5 +1,6 @@
 import NavBar from "./components/NavBar";
 import AuthContext from "./context/AuthContext";
+import PostContext from "./context/PostContext";
 import "./globals.css";
 import localFont from "next/font/local";
 
@@ -40,8 +41,10 @@ export default function RootLayout({ children }) {
       </head>
       <body className={noonnu.className}>
         <AuthContext >
-          <NavBar/>
-          {children}
+          <PostContext>
+            <NavBar/>
+            {children}
+          </PostContext>
         </AuthContext>
       </body>
     </html>
