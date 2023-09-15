@@ -7,7 +7,7 @@ import styles from "../detailPage.module.css";
 import OptionModalButton from "@/app/components/OptionModalButton";
 
 export default async function DetailPage(props) {
-  const userCookieData = cookies().has("userData");
+  const userCookieData = cookies().has("jwt");
   let db = (await connectDB).db("Toonda");
   let result = await db
     .collection("post")
