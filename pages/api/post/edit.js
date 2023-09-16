@@ -2,12 +2,10 @@ import { connectDB } from "@/public/utils/database/database";
 import { ObjectId } from "mongodb";
 
 export default async function handle(req, res) {
-  const { title, content, image, date, id } = req.body;
+  const { title, content, image, date, _id } = req.body;
+  console.log("---edit 서버--", req.body);
 
   if (req.method == "POST") {
-    if (req.body.title === "" || req.body.content === "") {
-      return res.status(500).json("빈칸을 채워주세요");
-    }
     try {
       const client = await connectDB;
       const db = client.db("Toonda");
@@ -19,8 +17,10 @@ export default async function handle(req, res) {
       };
       const result = await db
         .collection("post")
-        .updateOne({ _id: new ObjectId(id) }, { $set: editData });
-      return res.redirect(302, `/detailPage/${id}`);
+        .updateOne({ _id: new ObjectId(_id) }, { $set: editData });
+        console.log('수정결과---', result)
+        return res.status(200).json("글 수정이 완료되었습니다");
+      // return res.redirect(302, `/detailPage/${id}`);
     } catch (error) {
       return res.status(500).json(error);
     }

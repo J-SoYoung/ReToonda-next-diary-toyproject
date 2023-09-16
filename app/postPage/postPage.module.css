@@ -85,8 +85,10 @@
 .postBox .postImageBox .labelBox .imageEditLabelBox {
   display: flex;
 }
-.postBox .postImageBox .labelBox .imageEditLabelBox .imageEditLabel, .postBox .postButton  {
+.postBox .postImageBox .labelBox .imageEditLabelBox .imageEditLabel,
+.postBox .postButton {
   width: 150px;
+  height: 40px;
   margin: 8px;
   padding: 4px 8px;
   box-sizing: border-box;
@@ -103,7 +105,9 @@
 .postBox .postImageBox .previewImg {
   object-fit: cover;
 }
-.postBox .postButton {
-  display: inline-block;
-  margin: 20px auto; 
+.postBox .postButtonBox {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 20px auto;
 }

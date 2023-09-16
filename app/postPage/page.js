@@ -8,11 +8,12 @@ import { PostDataContext } from "@/app/context/PostContext";
 // component
 import ImageComponent from "./components/ImageComponent";
 import Image from "next/image";
+import { imageUpload } from "@/utils/imageUpload";
 
 export default function PostPage() {
-  const { data } = useContext(AuthenticationContext);
-  const { setPostState, imageFile, postError } = useContext(PostDataContext);
   const router = useRouter();
+  const { data } = useContext(AuthenticationContext);
+  const { setPostState, imageFile } = useContext(PostDataContext);
 
   const [state, setState] = useState({
     title: "",
@@ -22,65 +23,38 @@ export default function PostPage() {
 
   const handleClickPostAdd = async (e) => {
     e.preventDefault();
-    // if (state.date == "" || state.title == "" || state.content == "") {
-    //   alert("빈칸을 채워주세요");
-    //   return;
-    // }
+    if (state.date == "" || state.title == "" || state.content == "") {
+      alert("빈칸을 채워주세요");
+      return;
+    }
     try {
-      let uploadSrc = null
-      if (imageFile) {
-        const filename = encodeURIComponent(imageFile.name);
-        // presigned URL발행
-        const res = await fetch(`/api/post/image?file=${filename}`);
-        if(!res.ok)throw new Error(" 이미지 업로드에 문제가 있습니다 ")
-        const presignedUrlData = await res.json();        
-        console.log("Presigned URL---", presignedUrlData);
-  
-        // S3-upload
-        // res.fields=서버가 보낸 정보 / file= 유저 이미지정보 => upload
-        const formData = new FormData();
-        Object.entries({ ...presignedUrlData.fields, file: imageFile }).forEach(
-          ([key, value]) => {
-            formData.append(key, value);
-          }
-        );
-        let upload = await fetch(presignedUrlData.url, {
-          method: "POST",
-          body: formData,
-        });
-  
-        if (upload.ok) {
-          uploadSrc = `${upload.url}/${filename}`;
-        } else {
-          throw new Error(" 이미지 업로드에 문제가 있습니다")
-        }
-      }
-      const freeSrc =
-      "https://s3.ap-northeast-2.amazonaws.com/toonda/free.jpg";
+      // S3이미지 업로드
+      const imageS3Upload = await imageUpload(imageFile);
 
       const newData = {
         date: state.date,
         title: state.title,
         content: state.content,
-        image: uploadSrc == null ? freeSrc : uploadSrc,
+        image: imageS3Upload == null ? "/image/free.jpg" : imageS3Upload,
         user: data?.userid,
         createDate: new Date().getTime(),
       };
-      console.log(newData)
-
+      
       const newPostRes = await fetch(`/api/post/new`, {
         method: "POST",
         body: JSON.stringify(newData),
         headers: { "Content-Type": "application/json" },
       })
-        .then((res) =>{
-          if(!res.ok){throw new Error('포스트 작성에 문제가 발생하였습니다.')}
-          return res.json()
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("포스트 작성에 문제가 발생하였습니다.");
+          }
+          return res.json();
         })
         .then((result) => {
           try {
             setState({ title: "", content: "", date: "" });
-            setPostState({  postError: null, imageFile: null,})
+            setPostState({ postError: null, imageFile: null });
             alert(result);
             router.push("/");
             router.refresh();
@@ -91,7 +65,7 @@ export default function PostPage() {
         });
     } catch (error) {
       // 이미지 업로드 Error Catch
-      alert(error)
+      alert(error);
     }
   };
 
@@ -126,9 +100,11 @@ export default function PostPage() {
           />
         </div>
         <ImageComponent />
-        <button className={styles.postButton} onClick={handleClickPostAdd}>
-          글 작성
-        </button>
+        <div className={styles.postButtonBox}>
+          <button className={styles.postButton} onClick={handleClickPostAdd}>
+            글 작성
+          </button>
+        </div>
       </div>
     </div>
   );

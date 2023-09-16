@@ -2,7 +2,6 @@ import { connectDB } from "@/public/utils/database/database";
 
 export default async function handle(req, res) {
   if (req.method == "POST") {
-
     try {
       const client = await connectDB;
       const db = client.db("Toonda");
