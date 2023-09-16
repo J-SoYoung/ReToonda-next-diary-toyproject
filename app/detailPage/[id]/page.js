@@ -1,13 +1,16 @@
 import Image from "next/image";
-import { connectDB } from "../../../public/utils/database/database";
+import { connectDB } from "@/public/utils/database/database";
 import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken"; // token의 payload찾는 lib
 
 import styles from "../detailPage.module.css";
 import OptionModalButton from "@/app/components/OptionModalButton";
 
 export default async function DetailPage(props) {
-  const userCookieData = cookies().has("jwt");
+  const token = cookies().get("jwt");
+  const userid = jwt.decode(token?.value)?.userid;
+
   let db = (await connectDB).db("Toonda");
   let result = await db
     .collection("post")
@@ -38,7 +41,7 @@ export default async function DetailPage(props) {
               height={30}
             />
           </div>
-          {userCookieData && <OptionModalButton />}
+          {userid == result.user && <OptionModalButton />}
         </div>
         <div className={styles.detailText}>
           <span>{result?.content}</span>
