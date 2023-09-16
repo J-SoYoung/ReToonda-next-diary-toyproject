@@ -8,7 +8,8 @@ export default async function handle(req, res) {
 
   // 사용자 payload확인 후 정보 출력
   const payload = jwt.decode(token);
-  if (!payload.email) {
+  if (!payload.userid) {
+    res.redirect(302, "/loginPage");
     return res.status(401).json({
       errorMessage: "인증되지 않은 요청입니다",
     });
@@ -17,10 +18,11 @@ export default async function handle(req, res) {
   const db = (await connectDB).db("Toonda");
   const userInfo = await db
     .collection("user_card")
-    .findOne({ email: payload.email });
+    .findOne({ userid: payload.userid });
 
   if (!userInfo) {
+    res.redirect(302, "/loginPage");
     return res.status(401).json({ errorMessage: "유저 정보가 없습니다." });
   }
-  return res.status(200).json( userInfo );
+  return res.status(200).json(userInfo);
 }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import "./globals.css"
-import { connectDB } from "../public/utils/database/database";
+import { connectDB } from "@/public/utils/database/database";
 
 // 컴포넌트
 import Btn_PageUp from "./components/Btn_PageUp";

@@ -1,4 +1,4 @@
-import { connectDB } from "../../../public/utils/database/database";
+import { connectDB } from "@/public/utils/database/database";
 
 export default async function handle(req, res) {
   if (req.method == "POST") {
