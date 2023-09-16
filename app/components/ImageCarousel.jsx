@@ -37,19 +37,14 @@ export default function ImageCarousel() {
   return (
     <section className={styles.carousel}>
       <div className={styles.imgBox}>
-        {bannerImage.map((img, idx) => {
-          return (
-            <div key={idx}>
-              <Image
-                src={`/image/banner${currentSlide + 1}.png`}
-                alt={img}
-                width={500}
-                height={200}
-                style={{ display: idx == currentSlide ? "block" : "none" }}
-              />
-            </div>
-          );
-        })}
+        <div>
+          <Image
+            src={`/image/banner${currentSlide + 1}.png`}
+            alt={'banner-img'}
+            width={500}
+            height={200}
+          />
+        </div>
       </div>
       <div className={styles.moveButtonBox}>
         <ArrowBackIosNewOutlinedIcon
