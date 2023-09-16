@@ -8,8 +8,6 @@ export default function ImageComponent() {
   const { setPostState } = useContext(PostDataContext);
   const [previewImage, setPreviewImage] = useState("");
 
-  const [src, setSrc] = useState("");
-
   const handleImagePreview = async (e) => {
     const file = e.target.files?.[0];
     setPostState({
