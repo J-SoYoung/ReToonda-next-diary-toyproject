@@ -3,8 +3,8 @@ export default async function handler(req, res) {
   console.log(req.query);
   // amazon code
   aws.config.update({
-    accessKeyId: "AKIAYPAN6TFGYVDMVJFS",
-    secretAccessKey: "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",
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_KEY,
     region: "ap-northeast-2",
     signatureVersion: "v4",
   });
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   const s3 = new aws.S3();
   // createPresignedPost 함수 사용법
   const url = await s3.createPresignedPost({
-    Bucket: "toonda",
+    Bucket: process.env.BUCKET_NAME,
     Fields: { key: req.query.file },
     Expires: 60, // seconds
     Conditions: [
@@ -22,7 +22,3 @@ export default async function handler(req, res) {
   console.log("s3프리url", url);
   res.status(200).json(url);
 }
-
-// accessKeyId: process.env.ACCESS_KEY,
-// secretAccessKey: process.env.SECRET_KEY,
-// Bucket: process.env.BUCKET_NAME,

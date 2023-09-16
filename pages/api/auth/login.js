@@ -61,13 +61,9 @@ export default async function handle(req, res) {
 
       // JWT 토큰 구조 생성
       const alg = "HS256";
-      // const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-      const secret = new TextEncoder().encode(
-        "asdfjklienvmlqweockjfpsdnlcnznmlvcida"
-      );
-
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
       // 토큰 생성 email을 고유 식별자로 함
-      const token = await new jose.SignJWT({ email: userInfo.email })
+      const token = await new jose.SignJWT({ userid: userInfo.userid })
         .setProtectedHeader({ alg }) // 알고리즘 선택
         .setExpirationTime("48h") // 토큰 만료기한 설정
         .sign(secret); // secret key 설정
