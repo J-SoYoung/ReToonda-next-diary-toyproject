@@ -19,7 +19,8 @@ export default async function middleware(req, res) {
   }
 
   // 사용자의 토큰 확인
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+  // const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+  const secret = new TextEncoder().encode('asdfjklienvmlqweockjfpsdnlcnznmlvcida');
   try {
     await jose.jwtVerify(token, secret);
   } catch (error) {

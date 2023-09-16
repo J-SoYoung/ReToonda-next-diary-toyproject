@@ -3,8 +3,8 @@ import aws from "aws-sdk";
 
 export default async function handler(req, res) {
   aws.config.update({
-    accessKeyId: process.env.ACCESS_KEY,
-    secretAccessKey: process.env.SECRET_KEY,
+    accessKeyId: "AKIAYPAN6TFGYVDMVJFS",
+    secretAccessKey: "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",
     region: "ap-northeast-2",
     signatureVersion: "v4",
   });
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   const s3 = new aws.S3();
   // prisignedURL 생성됨
   const url = await s3.createPresignedPost({
-    Bucket: process.env.BUCKET_NAME,
+    Bucket: "toonda",
     Fields: { key: req.query.file },
     Expires: 60, // seconds
     Conditions: [
