@@ -1,20 +1,17 @@
 "use client";
 import React, { useContext, useState } from "react";
-import { PostDataContext } from "@/app/context/PostContext";
+import { ImageDataContext } from "@/app/context/ImageContext";
 import styles from "../postPage.module.css";
 import Image from "next/image";
 import { imagePreviewUtil } from "@/utils/imageUpload";
 
 export default function ImageComponent() {
-  const { setPostState } = useContext(PostDataContext);
+  const { setImageState } = useContext(ImageDataContext);
   const [previewImage, setPreviewImage] = useState("");
 
   const handleImagePreview = async (e) => {
     const file = e.target.files?.[0];
-    setPostState({
-      postError: null,
-      imageFile: file,
-    });
+    setImageState({ imageFile: file });
 
     // image 미리보기
     if (file) {
@@ -56,10 +53,7 @@ export default function ImageComponent() {
             </label>
             <button
               className={styles.imageEditLabel}
-              onClick={() => {
-                setPreviewImage("");
-                setEncodeFilename("");
-              }}
+              onClick={() => setPreviewImage("")}
             >
               이미지 삭제
             </button>

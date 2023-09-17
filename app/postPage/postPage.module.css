@@ -82,6 +82,9 @@
 .postBox .postImageBox .labelBox label {
   cursor: pointer;
 }
+.postBox .postImageBox .labelBox .imageBasicLabel img{
+  object-fit: cover
+}
 .postBox .postImageBox .labelBox .imageEditLabelBox {
   display: flex;
 }

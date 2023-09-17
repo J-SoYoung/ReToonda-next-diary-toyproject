@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 // context, util, hooks import
-import { PostDataContext } from "@/app/context/PostContext";
+import { ImageDataContext } from "@/app/context/ImageContext";
 import { imageUploadUtil } from "@/utils/imageUpload";
 import useInput from "@/hooks/useInput";
 import usePostApi from "@/hooks/usePostApi";
@@ -11,10 +11,9 @@ import usePostApi from "@/hooks/usePostApi";
 import EditImageComponent from "./EditImageComponent";
 import styles from "@/app/postPage/postPage.module.css";
 
-
 export default function EditInputComponent({ id, postData }) {
   const router = useRouter();
-  const { imageFile, setPostState } = useContext(PostDataContext);
+  const { imageFile, setImageState } = useContext(ImageDataContext);
   const { postDataFetchingApi } = usePostApi();
 
   const initialData = {
@@ -50,7 +49,7 @@ export default function EditInputComponent({ id, postData }) {
       const editResult = await postDataFetchingApi("edit", data);
       if (!editResult) throw new Error("포스트 작성에 문제가 발생하였습니다.");
       resetState();
-      setPostState({ postError: null, imageFile: null });
+      setImageState({ imageFile: null });
       alert(editResult);
       router.push(`/detailPage/${id}`);
       router.refresh();
