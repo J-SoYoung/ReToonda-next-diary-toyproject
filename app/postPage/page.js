@@ -11,13 +11,15 @@ import usePostApi from "@/hooks/usePostApi";
 import styles from "./postPage.module.css";
 import ImageComponent from "./components/ImageComponent";
 import InputComponent from "./components/InputComponent";
+import useInput from "@/hooks/useInput";
 
 export default function PostPage() {
   const router = useRouter();
   const { data } = useContext(AuthenticationContext);
+  const { postState } = useContext(PostDataContext);
   const { setImageState, imageFile } = useContext(ImageDataContext);
-  const { setPostState, postState } = useContext(PostDataContext);
   const { postDataFetchingApi } = usePostApi();
+  const [ resetState ] = useInput()
 
   const handleClickPostAdd = async (e) => {
     e.preventDefault();
@@ -45,7 +47,7 @@ export default function PostPage() {
       const postResult = await postDataFetchingApi("new", newData);
       if (!postResult) throw new Error("포스트 작성에 문제가 발생하였습니다.");
       setImageState({imageFile: null});
-      setPostState({ title: "", content: "", date: ""})
+      resetState()
       alert(postResult);
       router.push("/");
       router.refresh();
