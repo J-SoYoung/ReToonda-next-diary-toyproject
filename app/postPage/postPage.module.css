@@ -114,3 +114,6 @@
   text-align: center;
   margin: 20px auto;
 }
+.postBox .postButtonBox .postButton:hover{
+  box-shadow: 1px 1px 3px rgb(204, 203, 203);
+}
