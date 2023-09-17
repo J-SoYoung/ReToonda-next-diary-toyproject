@@ -1,21 +1,27 @@
 "use client";
-import React, { useState, useContext } from "react";
-import Link from "next/link";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
-// context, component import
+import Link from "next/link";
+// context, util, hooks import
 import { PostDataContext } from "@/app/context/PostContext";
 import { imageUpload } from "@/utils/imageUpload";
+import useInput from "@/hooks/useInput";
+// component, style import
 import EditImageComponent from "./EditImageComponent";
 import styles from "@/app/postPage/postPage.module.css";
+import usePostApi from "@/hooks/usePostApi";
 
 export default function EditInputComponent({ id, postData }) {
-  const router = useRouter()
-  const { imageFile, setPostState } = useContext(PostDataContext);  
-  const [state, setState] = useState({
-    title: null,
-    content: null,
-    date: null,
-  });
+  const router = useRouter();
+  const { imageFile, setPostState } = useContext(PostDataContext);
+  const { postDataFetchingApi } = usePostApi();
+
+  const initialData = {
+    title: "",
+    content: "",
+    date: "",
+  };
+  const [state, setState, resetState] = useInput(initialData);
 
   const handleClickEditPost = async (e) => {
     e.preventDefault();
@@ -23,48 +29,31 @@ export default function EditInputComponent({ id, postData }) {
       // S3이미지 업로드
       const imageS3Upload = await imageUpload(imageFile);
 
-      // 수정 DATA
-      const editData = {
+      // edit data
+      const data = {
         _id: id,
-        date: state.date == null ? postData?.date : state.date,
-        title: state.title == null ? postData?.title : state.title,
-        content: state.content == null ? postData?.content : state.content,
+        date: state.date == "" ? postData?.date : state.date,
+        title: state.title == "" ? postData?.title : state.title,
+        content: state.content == "" ? postData?.content : state.content,
         image: imageS3Upload == null ? postData?.image : imageS3Upload,
         user: postData?.user,
         createDate: new Date().getTime(),
       };
 
-      if (editData.date == "" || editData.title == "" || editData.content == "") {
+      if (data.date == "" || data.title == "" || data.content == "") {
         alert("빈칸을 채워주세요");
         return;
       }
 
-      await fetch(`/api/post/edit`, {
-        method: "POST",
-        body: JSON.stringify(editData),
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            throw new Error("포스트 작성에 문제가 발생하였습니다.") 
-          }
-        })
-        .then((result) => {
-          try {
-            setState({ title: null, content: null, date: null });
-            setPostState({ postError: null, imageFile: null });
-            alert(result);
-            router.push(`/detailPage/${id}`);
-            router.refresh();
-          } catch (error) {
-            // 서버 PostData저장 Error Catch
-            alert(error);
-          }
-        });
+      // post-EDIT API요청
+      const editResult = await postDataFetchingApi("edit", data);
+      if (!editResult) throw new Error("포스트 작성에 문제가 발생하였습니다.");
+      resetState();
+      setPostState({ postError: null, imageFile: null });
+      alert(editResult);
+      router.push(`/detailPage/${id}`);
+      router.refresh();
     } catch (error) {
-      // 이미지 업로드 Error Catch
       alert(error);
     }
   };
@@ -74,26 +63,21 @@ export default function EditInputComponent({ id, postData }) {
       <input type="hidden" name="id" value={id} />
       <div className={styles.postInputBox}>
         <input
-          name="date"
           type="date"
           defaultValue={postData.date}
-          onChange={(e) => {
-            setState({ ...state, date: e.target.value });
-          }}
+          onChange={(e) => setState("date", e.target.value)}
         />
         <input
-          name="title"
           type="text"
-          onChange={(e) => setState({ ...state, title: e.target.value })}
           defaultValue={postData.title}
+          onChange={(e) => setState("title", e.target.value)}
           maxLength="20"
         />
       </div>
       <div className={styles.postTextarea}>
         <textarea
-          name="content"
           defaultValue={postData.content}
-          onChange={(e) => setState({ ...state, content: e.target.value })}
+          onChange={(e) => setState("content", e.target.value)}
           maxLength="100"
         />
       </div>
