@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { PostDataContext } from "@/app/context/PostContext";
 import styles from "../postPage.module.css";
 import Image from "next/image";
+import { imagePreviewUtil } from "@/utils/imageUpload";
 
 export default function ImageComponent() {
   const { setPostState } = useContext(PostDataContext);
@@ -15,16 +16,13 @@ export default function ImageComponent() {
       imageFile: file,
     });
 
-    // 이미지 미리보기
+    // image 미리보기
     if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
+      const preview = await imagePreviewUtil(file);
+      setPreviewImage(preview);
     }
   };
-
+  
   return (
     <div className={styles.postImageBox}>
       {/* input=file style변경 */}

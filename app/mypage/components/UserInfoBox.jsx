@@ -4,7 +4,7 @@ import { AuthenticationContext } from "@/app/context/AuthContext";
 import Image from "next/image";
 
 import styles from "../mypage.module.css";
-import Btn_userInfoModal from "./Btn_userInfoModal";
+import Btn_modalUserInfoEdit from "./Btn_modalUserInfoEdit";
 import Btn_logout from "./Btn_logout";
 
 export default function UserInfoBox() {
@@ -33,7 +33,7 @@ export default function UserInfoBox() {
               ? `기본 소개글입니다. ${data?.userid}입니다.`
               : data?.userIntro}
           </p>
-          <Btn_userInfoModal user={data} />
+          <Btn_modalUserInfoEdit user={data} />
           <Btn_logout />
         </div>
       </div>
