@@ -1,7 +1,9 @@
 import { connectDB } from "@/public/utils/database/database";
 import { ObjectId } from "mongodb";
 import styles from "@/app/postPage/postPage.module.css";
-import EditInputComponent from "../components/EditInputComponent";
+import InputComponent from "@/app/postPage/components/InputComponent";
+import ImageComponent from "@/app/postPage/components/ImageComponent";
+import EditBtnComponent from "../components/EditBtnComponent";
 
 export default async function EditPage(props) {
   let db = (await connectDB).db("Toonda");
@@ -12,7 +14,11 @@ export default async function EditPage(props) {
   return (
     <>
       <div className={styles.home}>
-        <EditInputComponent postData={data} id={props.params.id}/>
+          <div className={styles.postBox}>
+          <InputComponent type='edit' postData={data} id={props.params.id}/>
+          <ImageComponent type='edit' imageDefault={data?.image} />
+          <EditBtnComponent  postData={data} id={props.params.id}/>
+        </div>
       </div>
     </>
   );
