@@ -1,25 +1,28 @@
 "use client";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import styles from "./postPage.module.css";
-// contextAPI import
+// context, util, hooks import
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { PostDataContext } from "@/app/context/PostContext";
-// component
-import ImageComponent from "./components/ImageComponent";
-import Image from "next/image";
 import { imageUploadUtil } from "@/utils/imageUpload";
+import useInput from "@/hooks/useInput";
+import usePostApi from "@/hooks/usePostApi";
+// component, style import
+import styles from "./postPage.module.css";
+import ImageComponent from "./components/ImageComponent";
 
 export default function PostPage() {
   const router = useRouter();
   const { data } = useContext(AuthenticationContext);
   const { setPostState, imageFile } = useContext(PostDataContext);
+  const { postDataFetchingApi } = usePostApi();
 
-  const [state, setState] = useState({
-    title: "",
-    content: "",
-    date: "",
-  });
+  const initialData = {
+    title: '',
+    content: '',
+    date: '',
+  };
+  const [state, setState, resetState] = useInput(initialData);
 
   const handleClickPostAdd = async (e) => {
     e.preventDefault();
@@ -27,6 +30,7 @@ export default function PostPage() {
       alert("빈칸을 채워주세요");
       return;
     }
+
     try {
       // S3이미지 업로드
       const imageS3Upload = await imageUploadUtil(imageFile);
@@ -40,29 +44,14 @@ export default function PostPage() {
         createDate: new Date().getTime(),
       };
       
-      const newPostRes = await fetch(`/api/post/new`, {
-        method: "POST",
-        body: JSON.stringify(newData),
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("포스트 작성에 문제가 발생하였습니다.");
-          }
-          return res.json();
-        })
-        .then((result) => {
-          try {
-            setState({ title: "", content: "", date: "" });
-            setPostState({ postError: null, imageFile: null });
-            alert(result);
-            router.push("/");
-            router.refresh();
-          } catch (error) {
-            // 서버 PostData저장 Error Catch
-            alert(error);
-          }
-        });
+      // post작성 API
+      const postResult = await postDataFetchingApi("new", newData);
+      if (!postResult) throw new Error("포스트 작성에 문제가 발생하였습니다.");
+      resetState();
+      setPostState({ postError: null, imageFile: null });
+      alert(postResult);
+      router.push("/");
+
     } catch (error) {
       // 이미지 업로드 Error Catch
       alert(error);
@@ -74,27 +63,22 @@ export default function PostPage() {
       <div className={styles.postBox}>
         <div className={styles.postInputBox}>
           <input
-            name="date"
             type="date"
-            value={state.date}
-            onChange={(e) => {
-              setState({ ...state, date: e.target.value });
-            }}
+            value={state?.date}
+            onChange={(e) => setState("date", e.target.value)}
           />
           <input
-            name="title"
-            value={state.title}
-            onChange={(e) => setState({ ...state, title: e.target.value })}
             type="text"
+            value={state?.title}
+            onChange={(e) => setState("title", e.target.value)}
             maxLength="20"
             placeholder="툰 제목을 입력해주세요"
           />
         </div>
         <div className={styles.postTextarea}>
           <textarea
-            name="content"
-            value={state.content}
-            onChange={(e) => setState({ ...state, content: e.target.value })}
+            value={state?.content}
+            onChange={(e) => setState("content", e.target.value)}
             maxLength="100"
             placeholder="오늘의 툰을 설명해주세요"
           />
