@@ -4,12 +4,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 // context, util, hooks import
 import { PostDataContext } from "@/app/context/PostContext";
-import { imageUpload } from "@/utils/imageUpload";
+import { imageUploadUtil } from "@/utils/imageUpload";
 import useInput from "@/hooks/useInput";
+import usePostApi from "@/hooks/usePostApi";
 // component, style import
 import EditImageComponent from "./EditImageComponent";
 import styles from "@/app/postPage/postPage.module.css";
-import usePostApi from "@/hooks/usePostApi";
+
 
 export default function EditInputComponent({ id, postData }) {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function EditInputComponent({ id, postData }) {
     e.preventDefault();
     try {
       // S3이미지 업로드
-      const imageS3Upload = await imageUpload(imageFile);
+      const imageS3Upload = await imageUploadUtil(imageFile);
 
       // edit data
       const data = {

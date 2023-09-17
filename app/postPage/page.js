@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 // context, util, hooks import
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { PostDataContext } from "@/app/context/PostContext";
-import { imageUpload } from "@/utils/imageUpload";
+import { imageUploadUtil } from "@/utils/imageUpload";
 import useInput from "@/hooks/useInput";
 import usePostApi from "@/hooks/usePostApi";
 // component, style import
@@ -33,7 +33,7 @@ export default function PostPage() {
 
     try {
       // S3이미지 업로드
-      const imageS3Upload = await imageUpload(imageFile);
+      const imageS3Upload = await imageUploadUtil(imageFile);
 
       const newData = {
         date: state.date,
