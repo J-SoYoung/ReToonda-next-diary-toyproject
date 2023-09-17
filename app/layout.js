@@ -1,6 +1,7 @@
 import NavBar from "./components/NavBar";
 import AuthContext from "./context/AuthContext";
 import PostContext from "./context/PostContext";
+import ImageContext from "./context/ImageContext";
 import "./globals.css";
 import localFont from "next/font/local";
 
@@ -16,23 +17,6 @@ export const noonnu = localFont({
   display: "swap",
 });
 
-// const noonnu = localFont({
-//   src: [
-//     {
-//       path: "./font/RussoOne-Regular.ttf", // 로고font
-//       display: "swap",
-//     },
-//     {
-//       path: "./font/RubikBubbles-Regular.ttf",
-//       display: "swap",
-//     },
-//     {
-//       path: "./font/강원교육모두 Light.ttf",
-//       display: "swap",
-//     },
-//   ],
-// });
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -42,8 +26,10 @@ export default function RootLayout({ children }) {
       <body className={noonnu.className}>
         <AuthContext >
           <PostContext>
-            <NavBar/>
-            {children}
+            <ImageContext>
+              <NavBar/>
+              {children}
+            </ImageContext>
           </PostContext>
         </AuthContext>
       </body>
