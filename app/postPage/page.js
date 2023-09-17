@@ -8,7 +8,7 @@ import { PostDataContext } from "@/app/context/PostContext";
 // component
 import ImageComponent from "./components/ImageComponent";
 import Image from "next/image";
-import { imageUpload } from "@/utils/imageUpload";
+import { imageUploadUtil } from "@/utils/imageUpload";
 
 export default function PostPage() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function PostPage() {
     }
     try {
       // S3이미지 업로드
-      const imageS3Upload = await imageUpload(imageFile);
+      const imageS3Upload = await imageUploadUtil(imageFile);
 
       const newData = {
         date: state.date,

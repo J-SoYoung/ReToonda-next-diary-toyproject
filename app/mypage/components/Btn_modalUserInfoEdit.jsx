@@ -4,8 +4,9 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import useUserDataEdit from "@/hooks/useUserDataEdit";
 import modalStyle from "@/app/components/pageModalStyle.module.css";
+import { imagePreviewUtil, imageUploadUtil } from "@/utils/imageUpload";
 
-export default function Btn_userInfoModal({ user }) {
+export default function Btn_modalUserInfoEdit({ user }) {
   const { userDataEditFunc } = useUserDataEdit();
 
   const [showModal, setShowModal] = useState(false);
@@ -14,46 +15,27 @@ export default function Btn_userInfoModal({ user }) {
 
   const [previewImage, setPreviewImage] = useState("");
   const [uploadFile, setUploadFile] = useState("");
-  const [encodeFilename, setEncodeFilename] = useState("");
 
   const handleImagePreview = async (e) => {
     const file = e.target.files?.[0];
     setUploadFile(file);
-    setEncodeFilename(encodeURIComponent(file.name));
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
+
+    // image 미리보기
+    if(file){
+      const preview = await imagePreviewUtil(file);
+      setPreviewImage(preview);
     }
   };
 
   const handleUserIntroEdit = async () => {
-    // S3업로드를 위한 Presigned URL발행
-    let s3_imageSrc = "";
-    if (encodeFilename) {
-      let res = await fetch(`/api/post/s3_ImageUpload?file=${encodeFilename}`);
-      res = await res.json();
+    // S3 업로드
+    const imageS3Upload = await imageUploadUtil(uploadFile);
 
-      // S3 업로드
-      // entries를 통해 주어진 객체를 [key, value]를 배열로 반환
-      const formData = new FormData();
-      Object.entries({ ...res.fields, uploadFile }).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-
-      let S3_imageUpload = await fetch(res.url, {
-        method: "POST",
-        body: formData,
-      });
-      s3_imageSrc = `${S3_imageUpload.url}/${encodeFilename}`;
-    }
-
+    // 프로필 수정
     const userData = {
       ...user,
       userIntro: introEdit ? introEdit : user.userIntro,
-      userProfileImage: s3_imageSrc ? s3_imageSrc : user.userProfileImage,
+      userProfileImage: imageS3Upload ? imageS3Upload : user.userProfileImage,
     };
     await userDataEditFunc({ userData });
     setShowModal(false);
@@ -71,7 +53,7 @@ export default function Btn_userInfoModal({ user }) {
                 <div className={modalStyle.userImageBox}>
                   {!previewImage ? (
                     <Image
-                      src= {
+                      src={
                         user?.userProfileImage == null
                           ? "/image/user.jpg"
                           : user?.userProfileImage
@@ -108,7 +90,6 @@ export default function Btn_userInfoModal({ user }) {
                     </label>
                   </div>
                 </div>
-
                 <input
                   type="text"
                   defaultValue={

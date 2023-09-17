@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 // context, component import
 import { PostDataContext } from "@/app/context/PostContext";
-import { imageUpload } from "@/utils/imageUpload";
+import { imageUploadUtil } from "@/utils/imageUpload";
 import EditImageComponent from "./EditImageComponent";
 import styles from "@/app/postPage/postPage.module.css";
 
@@ -21,7 +21,7 @@ export default function EditInputComponent({ id, postData }) {
     e.preventDefault();
     try {
       // S3이미지 업로드
-      const imageS3Upload = await imageUpload(imageFile);
+      const imageS3Upload = await imageUploadUtil(imageFile);
 
       // 수정 DATA
       const editData = {
