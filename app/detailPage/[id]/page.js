@@ -1,51 +1,42 @@
 import Image from "next/image";
-import { connectDB } from "@/public/utils/database/database";
+import { connectDB } from "@/utils/database";
 import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"; // token의 payload찾는 lib
 
 import styles from "../detailPage.module.css";
-import OptionModalButton from "@/app/components/OptionModalButton";
+import IntroSection from "../components/IntroSection";
+import ContentSection from "../components/ContentSection";
+import MiddleNavBar from "../components/MiddleNavBar";
+import CommentComponent from "../components/CommentComponent";
 
 export default async function DetailPage(props) {
+  const db = (await connectDB).db("Toonda");
   const token = cookies().get("jwt");
   const userid = jwt.decode(token?.value)?.userid;
-
-  let db = (await connectDB).db("Toonda");
-  let result = await db
+  const postData = await db
     .collection("post")
     .findOne({ _id: new ObjectId(props.params.id) });
+  const isWriter = userid == postData.user;
 
   return (
     <div className={styles.home}>
       <div className={styles.detailItem}>
-        <div className={styles.detailSubTitle}>
-          <p>{result?.title}</p>
-          <p>{result?.date}</p>
-        </div>
-        <div className={styles.detailImage}>
-          <Image src={result?.image} alt="image" width={490} height={400} />
-        </div>
-        <div className={styles.middleNavBar}>
-          <div className={styles.middleNavBarLike}>
-            <Image
-              src="/icons/green_comment.svg"
-              alt="comment-icon"
-              width={30}
-              height={30}
-            />
-            <Image
-              src="/icons/green_star.svg"
-              alt="like-icon"
-              width={30}
-              height={30}
-            />
-          </div>
-          {userid == result.user && <OptionModalButton />}
-        </div>
-        <div className={styles.detailText}>
-          <span>{result?.content}</span>
-        </div>
+        <IntroSection title={postData?.title} postUser={postData?.user} />
+        <Image
+          className={styles.detailImage}
+          src={postData?.image}
+          alt="image"
+          width={490}
+          height={400}
+        />
+        <MiddleNavBar
+          isWriter={isWriter}
+          userid={userid}
+          id={props.params.id}
+        />
+        <ContentSection date={postData?.date} content={postData?.content} />
+        <CommentComponent postid={props.params.id} />
       </div>
     </div>
   );

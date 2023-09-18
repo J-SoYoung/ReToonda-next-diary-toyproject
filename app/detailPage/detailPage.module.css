@@ -14,20 +14,35 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-.detailItem .detailSubTitle {
-  height: 50px;
-  padding: 8px;
+.detailItem .deatailMainInfo {
+  width: 100%;
+  padding: 16px;
   box-sizing: border-box;
+  font-size: 18px;
+}
+.detailItem .deatailMainInfo .detailUser {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  margin-bottom: 8px;
+}
+.detailItem .deatailMainInfo .detailUser img{
+  margin-right: 8px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.detailItem .deatailMainInfo > .detailTitle {
+  width: 100%;
+  height: 40px;
+  /* margin-bottom: 16px; */
+  padding: 8px 16px;
+  background-color: #eee;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 .detailItem .detailImage {
-  width: 490px;
-  height: 400px;
   margin: 0 auto;
-}
-.detailItem .detailImage img {
   object-fit: cover;
 }
 .detailItem .middleNavBar {
@@ -35,13 +50,80 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px; 
+  padding: 16px;
   box-sizing: border-box;
 }
 .detailItem .middleNavBar img {
-  margin: auto 6px
+  margin: 0 6px;
+  cursor: pointer;
 }
 .detailItem .detailText {
+  width: 100%;
+  height: 100%;
   padding: 0 16px;
   box-sizing: border-box;
+}
+.detailItem .detailText .detailDateBox {
+  margin-bottom: 8px;
+  text-align: right;
+}
+.detailItem .detailText .detailContent {
+  width: 100%;
+  min-height: 100px;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: #eee;
+}
+.commentBox{
+  margin-top: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.commentBox .comment{
+  margin-bottom: 16px;
+}
+.commentUser {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.commentUser .commentUserInfo{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.commentUser .commentUserInfo img{
+  margin-right: 4px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.commentUser .commentButton {
+  width: 60px;
+  height: 30px;
+}
+.commentUser .commentButton .commentBtnIcon{
+  margin: 2px;
+  padding: 2px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.commentUser .commentButton .commentBtnIcon:hover{
+  background-color: #eee;
+  border-radius: 6px;
+}
+.commentText {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+.commentInput{
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  border: none;
+  outline:none;
+  font-size: 16px;
+  font-family: "Orbit";
+  border-bottom: 1px solid lightgray;
 }
