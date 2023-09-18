@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import modalStyles from './pageModalStyle.module.css'
+import modalStyles from '@/app/components/pageModalStyle.module.css'
 
 export default function OptionModalButton() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function OptionModalButton() {
   const [showModal, setShowModal] = useState(false);
   const modalRef = useRef(null);
 
-  const handleClickDelete = () => {
+  const handleClickDelete = async () => {
     if (confirm("정말로 삭제하시겠습니까?")) {
       return fetch(`/api/post/delete?id=${id}`)
         .then((res) => res.json())

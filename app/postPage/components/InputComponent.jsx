@@ -4,7 +4,7 @@ import { PostDataContext } from "@/app/context/PostContext";
 import useInput from "@/hooks/useInput";
 import styles from "../postPage.module.css";
 
-export default function InputComponent({type, id, postData}) {
+export default function InputComponent({type, postData}) {
   const { postState } = useContext(PostDataContext);
   const [ state, setState ] = useInput()
 
@@ -14,14 +14,12 @@ export default function InputComponent({type, id, postData}) {
       <>
         <div className={styles.postInputBox}>
           <input 
-            name='date'
             type="date" 
             value={postState?.date} 
             onChange={(e) => setState("date", e.target.value)}
           />
           <input
             type="text"
-            name="title"
             value={postState?.title}
             onChange={(e) => setState("title", e.target.value)}
             maxLength="20"
@@ -30,7 +28,6 @@ export default function InputComponent({type, id, postData}) {
         </div>
         <div className={styles.postTextarea}>
           <textarea
-            name="content"
             value={postState?.content}
             onChange={(e) => setState("content", e.target.value)}
             maxLength="100"
@@ -40,7 +37,6 @@ export default function InputComponent({type, id, postData}) {
       </>
       :
       <>
-        <input type="hidden" name="id" value={id} />
         <div className={styles.postInputBox}>
           <input
             type="date"
