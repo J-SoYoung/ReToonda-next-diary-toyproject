@@ -11,6 +11,7 @@ export default async function Home() {
   const client = await connectDB;
   const db = client.db("Toonda");
   const result = await db.collection("post").find().toArray();
+  result.sort((a, b)=> b.createDate - a.createDate);
 
   return (
     <div className="home">
