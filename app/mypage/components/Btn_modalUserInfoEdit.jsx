@@ -16,6 +16,12 @@ export default function Btn_modalUserInfoEdit({ user }) {
   const [previewImage, setPreviewImage] = useState("");
   const [uploadFile, setUploadFile] = useState("");
 
+  const handleClickModal = (e)=>{
+    if (e.target === modalRef.current) {
+      setShowModal(false);
+    }
+  }
+
   const handleImagePreview = async (e) => {
     const file = e.target.files?.[0];
     setUploadFile(file);
@@ -46,7 +52,7 @@ export default function Btn_modalUserInfoEdit({ user }) {
       <button onClick={() => setShowModal(true)}>프로필 수정</button>
       {showModal &&
         createPortal(
-          <div ref={modalRef} className={modalStyle.modalOverlay}>
+          <div ref={modalRef} onClick={handleClickModal} className={modalStyle.modalOverlay}>
             <div className={modalStyle.modalBox}>
               <div className={modalStyle.modalEditBox}>
                 <h3>프로필 수정</h3>
