@@ -15,7 +15,7 @@ export const imagePreviewUtil = async (file) => {
 export const imageUploadUtil = async (imageFile) => {
   let uploadSrc = null;
   if (imageFile) {
-    console.log("--image넘어옴--", imageFile);
+    console.log("image util로 넘어옴--", imageFile);
     const filename = encodeURIComponent(imageFile.name);
     
     // presigned URL발행
@@ -23,6 +23,7 @@ export const imageUploadUtil = async (imageFile) => {
     if (!res.ok)
       throw new Error(" 이미지 업로드에 문제가 생겼습니다. 다시 시도해주세요");
     const presignedUrlData = await res.json();
+    console.log("presignedUrlData 출력--", presignedUrlData);
 
     // S3-upload
     // res.fields=서버가 보낸 정보 / file= 유저 이미지정보 => upload
@@ -40,7 +41,7 @@ export const imageUploadUtil = async (imageFile) => {
 
     if (upload.ok) {
       uploadSrc = `${upload.url}/${filename}`;
-      console.log("--S3-upload URL --", uploadSrc);
+      console.log("-- S3업로드 끝 URL --", uploadSrc);
     } else {
       throw new Error(" 이미지 업로드에 문제가 생겼습니다. 다시 시도해주세요");
     }
