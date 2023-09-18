@@ -1,4 +1,4 @@
-import { connectDB } from "@/public/utils/database/database";
+import { connectDB } from "@/utils/database";
 import jwt from "jsonwebtoken"; // token의 payload찾는 lib
 
 export default async function handle(req, res) {

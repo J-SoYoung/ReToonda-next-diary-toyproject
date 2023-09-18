@@ -1,4 +1,4 @@
-import { connectDB } from "@/public/utils/database/database";
+import { connectDB } from "@/utils/database";
 import { ObjectId } from "mongodb";
 import styles from "@/app/postPage/postPage.module.css";
 import InputComponent from "@/app/postPage/components/InputComponent";
@@ -14,10 +14,10 @@ export default async function EditPage(props) {
   return (
     <>
       <div className={styles.home}>
-          <div className={styles.postBox}>
-          <InputComponent type='edit' postData={data} id={props.params.id}/>
-          <ImageComponent type='edit' imageDefault={data?.image} />
-          <EditBtnComponent  postData={data} id={props.params.id}/>
+        <div className={styles.postBox}>
+          <InputComponent type="edit" postData={data} />
+          <ImageComponent type="edit" imageDefault={data?.image} />
+          <EditBtnComponent postData={data} id={props.params.id} />
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { connectDB } from "@/public/utils/database/database";
+import { connectDB } from "@/utils/database";
 // components
 import styles from "../mypage.module.css";
 import UserInfoBox from "../components/UserInfoBox";

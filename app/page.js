@@ -1,6 +1,6 @@
 import Image from "next/image";
-import "./globals.css"
-import { connectDB } from "@/public/utils/database/database";
+import "./globals.css";
+import { connectDB } from "@/utils/database";
 
 // 컴포넌트
 import Btn_PageUp from "./components/Btn_PageUp";
@@ -13,8 +13,8 @@ export default async function Home() {
   const result = await db.collection("post").find().toArray();
 
   return (
-    <div className='home'>
-      <ImageCarousel/>
+    <div className="home">
+      <ImageCarousel />
       <DiaryContentSection title="Today's DIARY" items={result} />
       <Btn_PageUp />
     </div>

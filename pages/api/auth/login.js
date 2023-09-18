@@ -1,4 +1,4 @@
-import { connectDB } from "@/public/utils/database/database";
+import { connectDB } from "@/utils/database";
 import validator from "validator"; // 유효성 검사 lib
 import bcrypt from "bcrypt"; // 암호화 lib
 import * as jose from "jose"; // JWT token 생성 lib
