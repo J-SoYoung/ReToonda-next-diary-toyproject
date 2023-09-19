@@ -3,17 +3,16 @@ import React, { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 
+import useModal from "@/hooks/useModal";
 import Image from "next/image";
 import styles from "../detailPage.module.css";
 import modalStyle from "@/app/components/pageModalStyle.module.css";
-
-import OptionModalButton from "@/app/detailPage/components/OptionModalButton";
-import CommentInput from "./CommentItem";
+import OptionModalButton from "./OptionModalButton";
 
 export default function MiddleNavBar({ isWriter, userid, id }) {
   const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
   const modalRef = useRef(null);
+  const { isOpen, openModal, closeModal } = useModal();
   const [comment, setComment] = useState("");
 
   const handleClickCommentAdd = async () => {
@@ -40,16 +39,10 @@ export default function MiddleNavBar({ isWriter, userid, id }) {
       const result = await response.json();
       alert(result);
       setComment("");
-      setShowModal(false);
+      closeModal();
       router.refresh();
     } catch (error) {
       alert(error);
-    }
-  };
-
-  const handleClickModal = (e) => {
-    if (e.target === modalRef.current) {
-      setShowModal(false);
     }
   };
 
@@ -61,9 +54,7 @@ export default function MiddleNavBar({ isWriter, userid, id }) {
           alt="comment-icon"
           width={30}
           height={30}
-          onClick={() => {
-            setShowModal(true);
-          }}
+          onClick={openModal}
         />
         <Image
           // src="/icons/green_outline_heart.svg"
@@ -74,11 +65,11 @@ export default function MiddleNavBar({ isWriter, userid, id }) {
         />
       </div>
       {isWriter && <OptionModalButton />}
-      {showModal &&
+      {isOpen &&
         createPortal(
           <div
             ref={modalRef}
-            onClick={handleClickModal}
+            onClick={closeModal}
             className={modalStyle.modalOverlay}
           >
             <div className={modalStyle.modalBox}>
@@ -92,13 +83,7 @@ export default function MiddleNavBar({ isWriter, userid, id }) {
                 />
                 <div className={modalStyle.buttonBox}>
                   <button onClick={handleClickCommentAdd}>댓글 작성</button>
-                  <button
-                    onClick={() => {
-                      setShowModal(false);
-                    }}
-                  >
-                    취소하기
-                  </button>
+                  <button onClick={closeModal}>취소하기</button>
                 </div>
               </div>
             </div>
