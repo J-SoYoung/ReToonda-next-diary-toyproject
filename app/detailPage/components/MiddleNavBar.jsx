@@ -66,7 +66,8 @@ export default function MiddleNavBar({ isWriter, userid, id }) {
           }}
         />
         <Image
-          src="/icons/green_star.svg"
+          // src="/icons/green_outline_heart.svg"
+          src="/icons/green_full_heart.svg"
           alt="like-icon"
           width={30}
           height={30}

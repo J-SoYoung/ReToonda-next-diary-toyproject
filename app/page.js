@@ -1,4 +1,3 @@
-import Image from "next/image";
 import "./globals.css";
 import { connectDB } from "@/utils/database";
 

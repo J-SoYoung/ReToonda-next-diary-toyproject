@@ -1,8 +1,10 @@
 import React from "react";
+import Image from "next/image";
 import styles from "./pageComponent.module.css";
 import Btn_PostAdd from "./Btn_PostAdd";
 import DiaryItem from "./DiaryItem";
-import Image from "next/image";
+import DiaryTypeState from "./DiaryTypeState";
+
 
 export default function DiaryContentSection({ title, items }) {
   return (
@@ -11,6 +13,7 @@ export default function DiaryContentSection({ title, items }) {
         <span>{title}</span>
         <Btn_PostAdd />
       </div>
+      <DiaryTypeState />
       <div className={styles.contentDiary}>
         {items.length == 0 ? (
           <div className={styles.emptyDiary}>
@@ -18,10 +21,12 @@ export default function DiaryContentSection({ title, items }) {
             <p> 작성한 다이어리가 없네요!<br></br> 다이어리를 작성해보세요. </p>
           </div>
         ) : (
+          // <DiaryItem items={items} type={'list'}/>
           items.map((item) => {
-            return <DiaryItem item={item} />;
-          })
-        )}
+              return <DiaryItem item={item} type={'grid'}/>;
+            })
+          )
+        }
       </div>
     </section>
   );
