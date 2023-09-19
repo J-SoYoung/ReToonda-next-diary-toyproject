@@ -1,11 +1,11 @@
 import React from "react";
 import { connectDB } from "@/utils/database";
-
 import styles from "./pageComponent.module.css";
+// icon import
 import ChatIcon from "@mui/icons-material/Chat";
-import StarIcon from "@mui/icons-material/Star";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-export default async function DiaryItemCommenNo({ postid }) {
+export default async function DiaryItemCommenNo({ postid, type }) {
   const db = (await connectDB).db("Toonda");
 
   const commentAll = await db.collection("comment").find().toArray();
@@ -15,14 +15,14 @@ export default async function DiaryItemCommenNo({ postid }) {
   });
 
   return (
-    <div className={styles.commentNo}>
+    <div className={type == "list"? styles.ListCommentNo : styles.commentNo}>
       <span>
         {comment.length}
         <ChatIcon sx={{ fontSize: 18 }} />
       </span>
       <span>
         10
-        <StarIcon sx={{ fontSize: 20 }} />
+        <FavoriteIcon sx={{ fontSize: 18 }} />
       </span>
     </div>
   );
