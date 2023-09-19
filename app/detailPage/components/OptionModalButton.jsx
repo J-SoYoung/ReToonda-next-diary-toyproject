@@ -12,6 +12,12 @@ export default function OptionModalButton() {
   const [showModal, setShowModal] = useState(false);
   const modalRef = useRef(null);
 
+  const handleClickModal = (e) =>{
+    if (e.target === modalRef.current) {
+      setShowModal(false);
+    }
+  }
+
   const handleClickDelete = async () => {
     if (confirm("정말로 삭제하시겠습니까?")) {
       return fetch(`/api/post/delete?id=${id}`)
@@ -41,7 +47,7 @@ export default function OptionModalButton() {
       </button>
       {showModal &&
         createPortal(
-          <div ref={modalRef} className={modalStyles.modalOverlay}>
+          <div ref={modalRef} onClick={handleClickModal} className={modalStyles.modalOverlay}>
             <div className={modalStyles.modalBox}>
               <div className={modalStyles.modalMessageBox}>
                 <button
