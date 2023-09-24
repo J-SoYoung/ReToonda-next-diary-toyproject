@@ -14,14 +14,19 @@ export default async function DiaryItemCommenNo({ postid, type }) {
     return c.postid == postid;
   });
 
+  const LikeAll = await db.collection("like").find().toArray();
+  const like = LikeAll.filter((c)=>{
+    return c.postid == postid
+  })
+
   return (
-    <div className={type == "list"? styles.ListCommentNo : styles.commentNo}>
+    <div className={type == "list" ? styles.ListCommentNo : styles.commentNo}>
       <span>
         {comment.length}
         <ChatIcon sx={{ fontSize: 18 }} />
       </span>
       <span>
-        10
+        {like.length}
         <FavoriteIcon sx={{ fontSize: 18 }} />
       </span>
     </div>
