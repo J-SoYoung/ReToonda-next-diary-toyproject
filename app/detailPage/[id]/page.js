@@ -31,6 +31,7 @@ export default async function DetailPage(props) {
           height={400}
         />
         <MiddleNavBar
+          isToken={token ? true : false}
           isWriter={isWriter}
           userid={userid}
           id={props.params.id}
