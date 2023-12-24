@@ -5,7 +5,7 @@
 <br>
 
 ## 🍎 배포 링크 Hosting URL, 개발 기간
-####   ✔️ 개발기간 : 2023/09/01 ~ 진행중<br>
+####   ✔️ 개발기간 : 2023/09/01 ~ 9/30<br>
 ####   ✔️ 배포링크 : https://re-toonda.vercel.app<br>
 ####   ✔️ 개발BLOG : https://www.notion.so/fun-blog/62c954b0e4dd489089a9c71fb9616b13?v=6a09aa90e86b478b8aae0a60a80732c1<br>
 <br>
